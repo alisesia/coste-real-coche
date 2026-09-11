@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Calculadora Profesional</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#f3f6f9;
+      --card:#ffffff;
+      --accent:#2563eb;
+      --muted:#6b7280;
+      --text:#0f172a;
+      --shadow: 0 6px 18px rgba(30,41,59,0.08);
+      --radius:14px;
+      --btn-radius:10px;
+      --gap:12px;
+      --pad:18px;
+    }
+    @media (prefers-color-scheme: dark){
+      :root{
+        --bg:#0b1220;
+        --card:#071022;
+        --accent:#4f8cff;
+        --muted:#9aa4b2;
+        --text:#e6eef8;
+        --shadow: 0 8px 30px rgba(2,6,23,0.6);
+      }
+      body{background:linear-gradient(180deg,#061028 0%,var(--bg) 100%);}    
+    }
+
+    *{box-sizing:border-box}
+    body{
+      font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+      background:linear-gradient(180deg,#eef2ff 0%,var(--bg) 100%);
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:32px;
+      color:var(--text);
+    }
+    .container{display:flex;gap:24px;align-items:flex-start;}
+    .calc {
+      width:380px;
+      background:var(--card);
+      border-radius:var(--radius);
+      padding:var(--pad);
+      box-shadow:var(--shadow);
+    }
+    .screen {
+      background:linear-gradient(180deg,rgba(15,23,42,0.03),transparent);
+      border-radius:10px;
+      padding:14px;
+      text-align:right;
+      margin-bottom:var(--gap);
+      min-height:86px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+    }
+    .expr { color:var(--muted); font-size:14px; line-height:1; min-height:18px; }
+    .result {
+      font-size:30px;
+      font-weight:700;
+      margin-top:8px;
+      word-wrap:break-word;
+    }
+    .pad {
+      display:grid;
+      grid-template-columns: repeat(4,1fr);
+      gap:10px;
+    }
+    button{
+      border:0;
+      background:transparent;
+      padding:16px;
+      border-radius:var(--btn-radius);
+      font-size:18px;
+      cursor:pointer;
+      transition:transform .06s ease, box-shadow .12s ease, background .12s ease;
+      box-shadow: 0 2px 6px rgba(15,23,42,0.06);
+    }
+    button:active{ transform:translateY(1px); }
+    .btn-ghost{ background:transparent; color:var(--muted); }
+    .btn-op{ background:rgba(37,99,235,0.08); color:var(--accent); font-weight:600; }
+    .btn-num{ background:linear-gradient(180deg,#ffffff,#fbfdff); color:var(--text); }
+    .btn-wide{ grid-column: span 2; }
+    .btn-accent{ background:var(--accent); color:#fff; font-weight:700; box-shadow: 0 8px 20px rgba(37,99,235,0.18); }
+    button:hover{ box-shadow:0 10px 26px rgba(2,6,23,0.08); }
+    button:focus{ outline:3px solid rgba(37,99,235,0.14); }
+
+    .side {
+      width:260px;
+      background:var(--card);
+      border-radius:12px;
+      padding:14px;
+      box-shadow:var(--shadow);
+      max-height:560px;
+      overflow:auto;
+    }
+    .side h3{margin:0 0 8px 0;font-size:15px}
+    .history-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px}
+    .history-item{display:flex;justify-content:space-between;align-items:center;padding:8px;border-radius:8px;background:linear-gradient(180deg,rgba(0,0,0,0.02),transparent)}
+    .muted{color:var(--muted);font-size:13px}
+    .small{font-size:13px}
+
+    @media (max-width:900px){
+      .container{flex-direction:column;align-items:center}
+      .side{width:100%}
+      .calc{width:100%;max-width:480px}
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <section class="calc" aria-label="Calculadora profesional">
+      <div class="screen" role="region" aria-live="polite" aria-atomic="true">
+        <div class="expr" id="expr" aria-hidden="true"></div>
+        <div class="result" id="result">0</div>
+      </div>
+
+      <div class="pad" role="group" aria-label="Teclado de calculadora">
+        <button class="btn-ghost" data-action="clear" aria-label="Limpiar (C)">C</button>
+        <button class="btn-ghost" data-action="del" aria-label="Borrar">DEL</button>
+        <button class="btn-ghost" data-action="percent" aria-label="Porcentaje">%</button>
+        <button class="btn-op" data-value="/" aria-label="Dividir">÷</button>
+
+        <button class="btn-num" data-value="7">7</button>
+        <button class="btn-num" data-value="8">8</button>
+        <button class="btn-num" data-value="9">9</button>
+        <button class="btn-op" data-value="*" aria-label="Multiplicar">×</button>
+
+        <button class="btn-num" data-value="4">4</button>
+        <button class="btn-num" data-value="5">5</button>
+        <button class="btn-num" data-value="6">6</button>
+        <button class="btn-op" data-value="-" aria-label="Restar">−</button>
+
+        <button class="btn-num" data-value="1">1</button>
+        <button class="btn-num" data-value="2">2</button>
+        <button class="btn-num" data-value="3">3</button>
+        <button class="btn-op" data-value="+" aria-label="Sumar">+</button>
+
+        <button class="btn-num btn-wide" data-value="0" aria-label="Cero">0</button>
+        <button class="btn-num" data-value=".">.</button>
+        <button class="btn-accent" data-action="equals" aria-label="Igual">=</button>
+      </div>
+
+      <div style="display:flex;gap:8px;margin-top:12px;justify-content:space-between;align-items:center">
+        <div class="muted small">Teclas: números, +-*/ . % ( ) Enter para calcular</div>
+        <div style="display:flex;gap:8px">
+          <button class="btn-ghost" id="mem-clear" title="MC">MC</button>
+          <button class="btn-ghost" id="mem-recall" title="MR">MR</button>
+          <button class="btn-ghost" id="mem-add" title="M+">M+</button>
+          <button class="btn-ghost" id="mem-sub" title="M-">M-</button>
+        </div>
+      </div>
+    </section>
+
+    <aside class="side" aria-label="Historial y opciones">
+      <h3>Historial</h3>
+      <ul id="history" class="history-list" aria-live="polite"></ul>
+      <div style="height:12px"></div>
+      <h3>Resultado actual</h3>
+      <div class="muted" id="currentExpr">—</div>
+      <div style="height:12px"></div>
+      <button id="clearHistory" class="btn-ghost" style="margin-top:10px">Borrar historial</button>
+    </aside>
+  </main>
+
+  <script>
+    (function(){
+      const exprEl = document.getElementById('expr');
+      const resultEl = document.getElementById('result');
+      const historyEl = document.getElementById('history');
+      const currentExprEl = document.getElementById('currentExpr');
+
+      let expr = '';
+      let memory = parseFloat(localStorage.getItem('calc_memory')||'0');
+      const MAX_HISTORY = 50;
+
+      function sanitizeInput(s){
+        // Permitir dígitos, espacios, operadores +-*/(),. y %
+        // Reemplazar símbolos visuales por operadores JS
+        s = String(s).replace(/[×]/g,'*').replace(/[÷]/g,'/').replace(/[−]/g,'-');
+        // Eliminar caracteres no permitidos
+        const allowed = s.match(/[0-9.+\-*/()%\s]+/g);
+        return allowed ? allowed.join('') : '';
+      }
+
+      function tryEval(s){
+        const safe = sanitizeInput(s);
+        if (!safe) return '';
+        // Manejo de porcentajes: convertir 'n%' en (n/100)
+        // Reemplazamos cada ocurrencia de número seguida de % por (number/100)
+        const withPercent = safe.replace(/(\d+(?:\.\d+)?)%/g, '($1/100)');
+        try{
+          // Usar Function para evaluar expresión matemática; es ejecutada en cliente
+          const val = Function('"use strict"; return (' + withPercent + ')')();
+          if (val === Infinity || Number.isNaN(val)) return 'Error';
+          // Formatear número corto si es entero
+          return (Math.round(val * 1e12)/1e12).toString();
+        }catch(e){
+          return '';
+        }
+      }
+
+      function update(){
+        exprEl.textContent = expr || '';
+        const res = tryEval(expr);
+        resultEl.textContent = res || '0';
+        currentExprEl.textContent = expr || '—';
+      }
+
+      function pushHistory(expression, result){
+        if (!expression) return;
+        const h = JSON.parse(localStorage.getItem('calc_history')||'[]');
+        h.unshift({expression, result, at: new Date().toISOString()});
+        while(h.length>MAX_HISTORY) h.pop();
+        localStorage.setItem('calc_history', JSON.stringify(h));
+        renderHistory();
+      }
+
+      function renderHistory(){
+        const h = JSON.parse(localStorage.getItem('calc_history')||'[]');
+        historyEl.innerHTML = '';
+        if (h.length===0){
+          const li = document.createElement('li'); li.className='muted'; li.textContent = 'Sin operaciones todavía'; historyEl.appendChild(li); return;
+        }
+        h.forEach((item, i)=>{
+          const li = document.createElement('li'); li.className='history-item';
+          const left = document.createElement('div'); left.style.flex='1';
+          const exprSpan = document.createElement('div'); exprSpan.textContent = item.expression; exprSpan.className='small';
+          const resSpan = document.createElement('div'); resSpan.textContent = item.result; resSpan.className='muted small';
+          left.appendChild(exprSpan); left.appendChild(resSpan);
+          const actions = document.createElement('div'); actions.style.display='flex'; actions.style.gap='8px';
+          const useBtn = document.createElement('button'); useBtn.className='btn-ghost'; useBtn.textContent='Usar'; useBtn.title='Usar esta expresión';
+          useBtn.addEventListener('click', ()=>{ expr = item.expression; update(); });
+          const replBtn = document.createElement('button'); replBtn.className='btn-ghost'; replBtn.textContent='Reemplazar'; replBtn.title='Reemplazar expresión actual';
+          replBtn.addEventListener('click', ()=>{ expr = item.expression; update(); });
+          actions.appendChild(useBtn); actions.appendChild(replBtn);
+          li.appendChild(left); li.appendChild(actions);
+          historyEl.appendChild(li);
+        });
+      }
+
+      document.querySelectorAll('button').forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+          const v = btn.dataset.value;
+          const a = btn.dataset.action;
+          if (a === 'clear'){ expr=''; update(); return; }
+          if (a === 'del'){ expr = expr.slice(0,-1); update(); return; }
+          if (a === 'percent'){ expr += '%'; update(); return; }
+          if (a === 'equals'){ const res = tryEval(expr); if (res!=='' && res!=='Error'){ pushHistory(expr, res); expr = String(res);} update(); return; }
+          if (v) { if (expr.length < 240) expr += v; update(); }
+        });
+      });
+
+      // Memory buttons
+      document.getElementById('mem-clear').addEventListener('click', ()=>{ memory=0; localStorage.setItem('calc_memory', '0'); alert('Memoria borrada'); });
+      document.getElementById('mem-recall').addEventListener('click', ()=>{ expr += String(memory); update(); });
+      document.getElementById('mem-add').addEventListener('click', ()=>{ const val = parseFloat(tryEval(expr)); if (!isNaN(val)) { memory += val; localStorage.setItem('calc_memory', String(memory)); alert('Añadido a memoria'); }});
+      document.getElementById('mem-sub').addEventListener('click', ()=>{ const val = parseFloat(tryEval(expr)); if (!isNaN(val)) { memory -= val; localStorage.setItem('calc_memory', String(memory)); alert('Sustraído de memoria'); }});
+
+      // Keyboard support
+      window.addEventListener('keydown', (e)=>{
+        if (/^[0-9]$/.test(e.key)) { expr += e.key; update(); e.preventDefault(); return; }
+        if (['+','-','*','/','.','(',')'].includes(e.key)){ expr += e.key; update(); e.preventDefault(); return; }
+        if (e.key === 'Enter'){ const res = tryEval(expr); if (res!=='' && res!=='Error'){ pushHistory(expr, res); expr = String(res);} update(); e.preventDefault(); return; }
+        if (e.key === 'Backspace'){ expr = expr.slice(0,-1); update(); e.preventDefault(); return; }
+        if (e.key === 'Escape'){ expr=''; update(); e.preventDefault(); return; }
+        if (e.key === '%'){ expr += '%'; update(); e.preventDefault(); return; }
+      });
+
+      // History controls
+      document.getElementById('clearHistory').addEventListener('click', ()=>{ localStorage.removeItem('calc_history'); renderHistory(); });
+
+      // Init
+      function init(){ renderHistory(); update(); }
+      init();
+
+      // Expose small API for tests or integration
+      window.__PRO_CALC = {getHistory: ()=>JSON.parse(localStorage.getItem('calc_history')||'[]'), clearHistory: ()=>{localStorage.removeItem('calc_history'); renderHistory();}};
+    })();
+  </script>
+</body>
+</html>
