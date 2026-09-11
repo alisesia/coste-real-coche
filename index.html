@@ -15,7 +15,7 @@
     <header class="app-header">
       <div class="icon-badge">🚗</div>
       <h1>Coste Real de tu Coche</h1>
-      <p>Calcula el gasto mensual, anual y la depreciación real de tu vehículo.</p>
+      <p>Descubre el impacto económico exacto de tu vehículo con desglose de gastos y depreciación.</p>
     </header>
 
     <form id="calc-form">
@@ -88,46 +88,89 @@
       <h2 class="results-heading">Resumen Financiero</h2>
 
       <div class="cards-stack">
-        <!-- Tarjeta Pocket -->
-        <article class="metric-card">
-          <div class="card-header">
-            <span class="card-tag">Bolsillo</span>
-            <h3>Coste Directo</h3>
-          </div>
-          <div class="card-rows">
-            <div class="row"><span>Gasto Anual:</span> <strong><span id="pocketAnual">0.00</span> €</strong></div>
-            <div class="row"><span>Gasto Mensual:</span> <strong><span id="pocketMensual">0.00</span> €</strong></div>
-          </div>
-        </article>
-
-        <!-- Tarjeta Depreciación -->
-        <article class="metric-card">
-          <div class="card-header">
-            <span class="card-tag warning">Pérdida</span>
-            <h3>Depreciación</h3>
-          </div>
-          <div class="card-rows">
-            <div class="row"><span>Depreciación Total:</span> <strong><span id="deprecTotal">0.00</span> €</strong></div>
-            <div class="row"><span>Pérdida Anual:</span> <strong><span id="deprecAnual">0.00</span> €</strong></div>
-            <div class="row"><span>Pérdida Mensual:</span> <strong><span id="deprecMensual">0.00</span> €</strong></div>
-          </div>
-        </article>
-
-        <!-- Tarjeta Destacada -->
+        <!-- Coste Total del Periodo Completo -->
         <article class="metric-card main-hero">
           <div class="card-header">
-            <span class="card-tag hero-tag">Coste Total</span>
-            <h3>Coste Real Calculado</h3>
+            <span class="card-tag hero-tag">Periodo Completo</span>
+            <h3>Coste en <span id="lblAnosPeriodo">5</span> Años</h3>
           </div>
           <div class="hero-metric">
-            <span class="hero-label">Coste Real Mensual</span>
-            <span class="hero-value"><span id="realMensual">0.00</span> €</span>
+            <span class="hero-label">Coste Real Total del Periodo</span>
+            <span class="hero-value"><span id="realPeriodo">0.00</span> €</span>
           </div>
           <div class="card-rows">
+            <div class="row"><span>Coste Real Mensual:</span> <strong><span id="realMensual">0.00</span> €</strong></div>
             <div class="row"><span>Coste Real Anual:</span> <strong><span id="realAnual">0.00</span> €</strong></div>
             <div class="row"><span>Coste por Kilómetro:</span> <strong><span id="realKm">0.000</span> €/km</strong></div>
           </div>
         </article>
+
+        <!-- Comparación Visual -->
+        <article class="metric-card">
+          <div class="card-header">
+            <span class="card-tag">Comparativa</span>
+            <h3>Bolsillo vs Coste Real</h3>
+          </div>
+          <div class="card-rows">
+            <div class="row"><span>Gasto directo (Bolsillo):</span> <strong><span id="compBolsillo">0.00</span> €/mes</strong></div>
+            <div class="row"><span>Coste Real (con depreciación):</span> <strong><span id="compReal">0.00</span> €/mes</strong></div>
+            <div class="row highlight-row"><span>Diferencia oculta:</span> <strong>+<span id="compDiferencia">0.00</span> €/mes</strong></div>
+          </div>
+        </article>
+
+        <!-- Desglose Completo con Porcentajes -->
+        <article class="metric-card">
+          <div class="card-header">
+            <span class="card-tag warning">Desglose</span>
+            <h3>Distribución del Coste Total</h3>
+          </div>
+          <div class="breakdown-list">
+            <div class="breakdown-item">
+              <div class="breakdown-info">
+                <span>⛽ Combustible</span>
+                <strong><span id="costoCombustible">0.00</span> € (<span id="pctCombustible">0</span>%)</strong>
+              </div>
+              <div class="bar-bg"><div id="barCombustible" class="bar-fill"></div></div>
+            </div>
+
+            <div class="breakdown-item">
+              <div class="breakdown-info">
+                <span>🛡️ Seguro</span>
+                <strong><span id="costoSeguro">0.00</span> € (<span id="pctSeguro">0</span>%)</strong>
+              </div>
+              <div class="bar-bg"><div id="barSeguro" class="bar-fill"></div></div>
+            </div>
+
+            <div class="breakdown-item">
+              <div class="breakdown-info">
+                <span>🔧 Mantenimiento</span>
+                <strong><span id="costoMantenimiento">0.00</span> € (<span id="pctMantenimiento">0</span>%)</strong>
+              </div>
+              <div class="bar-bg"><div id="barMantenimiento" class="bar-fill"></div></div>
+            </div>
+
+            <div class="breakdown-item">
+              <div class="breakdown-info">
+                <span>🅿️ Otros Gastos</span>
+                <strong><span id="costoOtros">0.00</span> € (<span id="pctOtros">0</span>%)</strong>
+              </div>
+              <div class="bar-bg"><div id="barOtros" class="bar-fill"></div></div>
+            </div>
+
+            <div class="breakdown-item">
+              <div class="breakdown-info">
+                <span>📉 Depreciación</span>
+                <strong><span id="costoDeprec">0.00</span> € (<span id="pctDeprec">0</span>%)</strong>
+              </div>
+              <div class="bar-bg"><div id="barDeprec" class="bar-fill warning-fill"></div></div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Botón para compartir -->
+        <button id="btn-compartir" class="btn-secondary">
+          🔗 Compartir Resultado
+        </button>
       </div>
     </div>
   </main>
