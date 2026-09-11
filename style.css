@@ -2,7 +2,6 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-
   font-family:
     -apple-system,
     BlinkMacSystemFont,
@@ -13,260 +12,106 @@
     sans-serif;
 }
 
-
 body {
-  background-color: #f4f7f6;
-
-  color: #333;
-
+  background: #f4f7fb;
+  color: #1f2937;
   padding: 20px 15px;
-
-  display: flex;
-  justify-content: center;
+  min-height: 100vh;
 }
-
 
 .container {
-  background-color: #ffffff;
-
-  max-width: 600px;
-
+  max-width: 620px;
   width: 100%;
-
-  padding: 25px 20px;
-
-  border-radius: 12px;
-
-  box-shadow:
-    0 4px 15px rgba(0, 0, 0, 0.08);
+  margin: 0 auto;
+  background: #ffffff;
+  padding: 30px 24px;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
 }
 
+/* =========================
+   CABECERA
+========================= */
+
+.header {
+  text-align: center;
+  margin-bottom: 28px;
+}
 
 h1 {
-  font-size: 1.5rem;
-
-  color: #1a252c;
-
-  margin-bottom: 8px;
-
-  text-align: center;
+  font-size: 1.7rem;
+  line-height: 1.25;
+  color: #17212b;
+  margin-bottom: 10px;
 }
 
-
 .subtitle {
+  color: #64748b;
   font-size: 0.95rem;
-
-  color: #666;
-
-  text-align: center;
-
-  margin-bottom: 25px;
-
   line-height: 1.5;
 }
 
+/* =========================
+   FORMULARIO
+========================= */
 
 .form-group {
-  margin-bottom: 18px;
+  margin-bottom: 19px;
 }
-
 
 label {
   display: block;
-
-  font-size: 0.9rem;
-
+  font-size: 0.92rem;
   font-weight: 600;
-
-  margin-bottom: 6px;
-
-  color: #2c3e50;
+  color: #334155;
+  margin-bottom: 7px;
 }
 
+.input-help {
+  display: block;
+  margin-top: 6px;
+  color: #94a3b8;
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
 
 input {
   width: 100%;
-
-  padding: 12px;
-
-  border: 1px solid #ccc;
-
-  border-radius: 8px;
-
+  padding: 13px 14px;
+  border: 1px solid #cbd5e1;
+  border-radius: 9px;
+  background: #ffffff;
+  color: #1e293b;
   font-size: 1rem;
-
+  outline: none;
   transition:
     border-color 0.2s ease,
     box-shadow 0.2s ease;
 }
 
-
 input:focus {
-  outline: none;
-
   border-color: #0066cc;
-
-  box-shadow:
-    0 0 0 3px rgba(0, 102, 204, 0.1);
+  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.12);
 }
 
+input::placeholder {
+  color: #a8b2bd;
+}
 
-button {
+/* =========================
+   BOTÓN PRINCIPAL
+========================= */
+
+.primary-button {
   width: 100%;
-
-  background-color: #0066cc;
-
-  color: white;
-
-  border: none;
-
-  padding: 14px;
-
-  font-size: 1rem;
-
-  font-weight: bold;
-
-  border-radius: 8px;
-
-  cursor: pointer;
-
-  margin-top: 10px;
-
-  transition:
-    background-color 0.2s ease,
-    transform 0.1s ease;
-}
-
-
-button:hover {
-  background-color: #0052a3;
-}
-
-
-button:active {
-  transform: scale(0.98);
-}
-
-
-.results-container {
-  margin-top: 30px;
-
-  padding-top: 20px;
-
-  border-top: 2px dashed #e0e0e0;
-}
-
-
-.results-container.hidden {
-  display: none;
-}
-
-
-.results-container h2 {
-  font-size: 1.3rem;
-
-  text-align: center;
-
-  margin-bottom: 20px;
-
-  color: #1a252c;
-}
-
-
-.results-section {
-  background-color: #f8fafc;
-
-  border: 1px solid #e2e8f0;
-
+  margin-top: 5px;
   padding: 15px;
-
-  border-radius: 8px;
-
-  margin-bottom: 15px;
-}
-
-
-.results-section h3 {
+  border: none;
+  border-radius: 10px;
+  background: #0066cc;
+  color: #ffffff;
   font-size: 1rem;
-
-  color: #475569;
-
-  margin-bottom: 10px;
-
-  border-bottom: 1px solid #cbd5e1;
-
-  padding-bottom: 5px;
-
-  text-transform: uppercase;
-
-  letter-spacing: 0.5px;
-}
-
-
-.results-section p {
-  font-size: 0.95rem;
-
-  margin-bottom: 6px;
-
-  display: flex;
-
-  justify-content: space-between;
-
-  gap: 15px;
-}
-
-
-.results-section p:last-child {
-  margin-bottom: 0;
-}
-
-
-.results-section.highlight {
-  background-color: #eef6ff;
-
-  border-color: #b3d7ff;
-}
-
-
-.results-section.highlight h3 {
-  color: #0052a3;
-
-  border-bottom-color: #b3d7ff;
-}
-
-
-.main-stat {
-  font-size: 1.05rem;
-
-  font-weight: 600;
-}
-
-
-@media (max-width: 480px) {
-
-  .container {
-    padding: 18px 15px;
-  }
-
-
-  h1 {
-    font-size: 1.3rem;
-  }
-
-
-  .subtitle {
-    font-size: 0.9rem;
-  }
-
-
-  input,
-  button {
-    font-size: 0.95rem;
-  }
-
-
-  .results-section p {
-    font-size: 0.9rem;
-  }
-
-}
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+   
