@@ -8,10 +8,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Librería para generar el informe PDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
 
-  <main class="app-card">
+  <main class="app-card" id="informe-card">
     <header class="app-header">
       <div class="icon-badge">🚗</div>
       <h1>Coste Real de tu Coche</h1>
@@ -167,10 +169,11 @@
           </div>
         </article>
 
-        <!-- Botón para compartir -->
-        <button id="btn-compartir" class="btn-secondary">
-          🔗 Compartir Resultado
-        </button>
+        <!-- Botones de Acción -->
+        <div class="actions-grid">
+          <button id="btn-compartir" class="btn-secondary" type="button">🔗 Compartir</button>
+          <button id="btn-pdf" class="btn-secondary" type="button">📄 Descargar PDF</button>
+        </div>
       </div>
     </div>
   </main>
