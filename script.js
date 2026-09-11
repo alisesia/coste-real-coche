@@ -1,260 +1,145 @@
-document.getElementById("calc-form").addEventListener("submit", function (event) {
+document.addEventListener("DOMContentLoaded", function () {
 
-  event.preventDefault();
-
+  const formulario = document.getElementById("calc-form");
   const resultados = document.getElementById("resultados");
+  const btnCompartir = document.getElementById("btn-compartir");
+  const btnRecalcular = document.getElementById("btn-recalcular");
 
-  // ==========================
-  // OBTENER DATOS
-  // ==========================
+  formulario.addEventListener("submit", function (event) {
 
-  const precioCompra = Number(
-    document.getElementById("precioCompra").value
-  );
+    event.preventDefault();
 
-  const valorFinal = Number(
-    document.getElementById("valorFinal").value
-  );
+    const precioCompra = Number(document.getElementById("precioCompra").value);
+    const valorFinal = Number(document.getElementById("valorFinal").value);
+    const periodoAnos = Number(document.getElementById("periodoAnos").value);
+    const kmAno = Number(document.getElementById("kmAno").value);
+    const consumo = Number(document.getElementById("consumo").value);
+    const precioCombustible = Number(document.getElementById("precioCombustible").value);
+    const seguro = Number(document.getElementById("seguro").value);
+    const mantenimiento = Number(document.getElementById("mantenimiento").value);
+    const otrosGastos = Number(document.getElementById("otrosGastos").value);
 
-  const periodoAnos = Number(
-    document.getElementById("periodoAnos").value
-  );
+    if (precioCompra <= 0) {
+      alert("El precio de compra debe ser mayor que 0.");
+      return;
+    }
 
-  const kmAno = Number(
-    document.getElementById("kmAno").value
-  );
+    if (valorFinal < 0 || valorFinal > precioCompra) {
+      alert("El valor final debe estar entre 0 € y el precio de compra.");
+      return;
+    }
 
-  const consumo = Number(
-    document.getElementById("consumo").value
-  );
+    if (periodoAnos <= 0 || kmAno <= 0) {
+      alert("El periodo y los kilómetros deben ser mayores que 0.");
+      return;
+    }
 
-  const precioCombustible = Number(
-    document.getElementById("precioCombustible").value
-  );
+    if (
+      consumo < 0 ||
+      precioCombustible < 0 ||
+      seguro < 0 ||
+      mantenimiento < 0 ||
+      otrosGastos < 0
+    ) {
+      alert("Los gastos no pueden ser negativos.");
+      return;
+    }
 
-  const seguro = Number(
-    document.getElementById("seguro").value
-  );
+    // DEPRECIACIÓN
 
-  const mantenimiento = Number(
-    document.getElementById("mantenimiento").value
-  );
+    const depreciacionTotal = precioCompra - valorFinal;
+    const depreciacionAnual = depreciacionTotal / periodoAnos;
+    const depreciacionMensual = depreciacionAnual / 12;
 
-  const otrosGastos = Number(
-    document.getElementById("otrosGastos").value
-  );
+    // COMBUSTIBLE
 
+    const combustibleAnual =
+      (kmAno / 100) * consumo * precioCombustible;
 
-  // ==========================
-  // VALIDACIONES
-  // ==========================
+    // COSTE DE BOLSILLO
 
-  if (precioCompra <= 0) {
-    alert("El precio de compra debe ser mayor que 0.");
-    return;
-  }
+    const bolsilloAnual =
+      combustibleAnual +
+      seguro +
+      mantenimiento +
+      otrosGastos;
 
-  if (valorFinal < 0) {
-    alert("El valor final no puede ser negativo.");
-    return;
-  }
+    const bolsilloMensual = bolsilloAnual / 12;
 
-  if (valorFinal > precioCompra) {
-    alert(
-      "El valor final no puede ser superior al precio de compra."
-    );
-    return;
-  }
+    // COSTE REAL
 
-  if (periodoAnos <= 0) {
-    alert("El periodo de propiedad debe ser mayor que 0.");
-    return;
-  }
+    const costeRealAnual =
+      bolsilloAnual + depreciacionAnual;
 
-  if (kmAno <= 0) {
-    alert("Los kilómetros al año deben ser mayores que 0.");
-    return;
-  }
+    const costeRealMensual =
+      costeRealAnual / 12;
 
-  if (consumo < 0) {
-    alert("El consumo no puede ser negativo.");
-    return;
-  }
+    const costeRealKm =
+      costeRealAnual / kmAno;
 
-  if (precioCombustible < 0) {
-    alert("El precio del combustible no puede ser negativo.");
-    return;
-  }
+    // FORMATO
 
-  if (seguro < 0) {
-    alert("El seguro no puede ser negativo.");
-    return;
-  }
-
-  if (mantenimiento < 0) {
-    alert("El mantenimiento no puede ser negativo.");
-    return;
-  }
-
-  if (otrosGastos < 0) {
-    alert("Los otros gastos no pueden ser negativos.");
-    return;
-  }
-
-
-  // ==========================
-  // DEPRECIACIÓN
-  // ==========================
-
-  const depreciacionTotal =
-    precioCompra - valorFinal;
-
-  const depreciacionAnual =
-    depreciacionTotal / periodoAnos;
-
-  const depreciacionMensual =
-    depreciacionAnual / 12;
-
-
-  // ==========================
-  // COMBUSTIBLE
-  // ==========================
-
-  const combustibleAnual =
-    (kmAno / 100) *
-    consumo *
-    precioCombustible;
-
-
-  // ==========================
-  // COSTE DE BOLSILLO
-  // ==========================
-
-  const bolsilloAnual =
-    combustibleAnual +
-    seguro +
-    mantenimiento +
-    otrosGastos;
-
-  const bolsilloMensual =
-    bolsilloAnual / 12;
-
-
-  // ==========================
-  // COSTE REAL
-  // ==========================
-
-  const costeRealAnual =
-    bolsilloAnual +
-    depreciacionAnual;
-
-  const costeRealMensual =
-    costeRealAnual / 12;
-
-  const costeRealKm =
-    costeRealAnual / kmAno;
-
-
-  // ==========================
-  // FORMATO ESPAÑOL
-  // ==========================
-
-  function formatoEuro(valor) {
-
-    return new Intl.NumberFormat("es-ES", {
+    const euro = new Intl.NumberFormat("es-ES", {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2
-    }).format(valor);
+    });
 
-  }
-
-
-  function formatoKm(valor) {
-
-    return new Intl.NumberFormat("es-ES", {
+    const km = new Intl.NumberFormat("es-ES", {
       minimumFractionDigits: 3,
       maximumFractionDigits: 3
-    }).format(valor);
+    });
 
-  }
+    // MOSTRAR RESULTADOS
 
+    document.getElementById("pocketAnual").textContent =
+      euro.format(bolsilloAnual);
 
-  // ==========================
-  // MOSTRAR RESULTADOS
-  // ==========================
+    document.getElementById("pocketMensual").textContent =
+      euro.format(bolsilloMensual);
 
-  document.getElementById("pocketAnual").textContent =
-    formatoEuro(bolsilloAnual);
+    document.getElementById("deprecTotal").textContent =
+      euro.format(depreciacionTotal);
 
-  document.getElementById("pocketMensual").textContent =
-    formatoEuro(bolsilloMensual);
+    document.getElementById("deprecAnual").textContent =
+      euro.format(depreciacionAnual);
 
+    document.getElementById("deprecMensual").textContent =
+      euro.format(depreciacionMensual);
 
-  document.getElementById("deprecTotal").textContent =
-    formatoEuro(depreciacionTotal);
+    document.getElementById("realMensual").textContent =
+      euro.format(costeRealMensual);
 
-  document.getElementById("deprecAnual").textContent =
-    formatoEuro(depreciacionAnual);
+    document.getElementById("realAnual").textContent =
+      euro.format(costeRealAnual);
 
-  document.getElementById("deprecMensual").textContent =
-    formatoEuro(depreciacionMensual);
+    document.getElementById("realKm").textContent =
+      km.format(costeRealKm);
 
+    document.getElementById("realMensualSecondary").textContent =
+      euro.format(costeRealMensual);
 
-  // Resultado principal
+    document.getElementById("realAnualSecondary").textContent =
+      euro.format(costeRealAnual);
 
-  document.getElementById("realMensual").textContent =
-    formatoEuro(costeRealMensual);
+    document.getElementById("realKmSecondary").textContent =
+      km.format(costeRealKm);
 
-  document.getElementById("realAnual").textContent =
-    formatoEuro(costeRealAnual);
+    resultados.classList.remove("hidden");
 
-  document.getElementById("realKm").textContent =
-    formatoKm(costeRealKm);
-
-
-  // Resultado secundario
-
-  document.getElementById("realMensualSecondary").textContent =
-    formatoEuro(costeRealMensual);
-
-  document.getElementById("realAnualSecondary").textContent =
-    formatoEuro(costeRealAnual);
-
-  document.getElementById("realKmSecondary").textContent =
-    formatoKm(costeRealKm);
-
-
-  // Mostrar resultados
-
-  resultados.classList.remove("hidden");
-
-  // Llevar al usuario hacia los resultados
-
-  resultados.scrollIntoView({
-    behavior: "smooth",
-    block: "start"
+    resultados.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
   });
 
-});
 
+  // COMPARTIR
 
-// ======================================
-// BOTÓN COMPARTIR
-// ======================================
+  btnCompartir.addEventListener("click", async function () {
 
-document
-  .getElementById("btn-compartir")
-  .addEventListener("click", async function () {
-
-    const mensual =
-      document.getElementById("realMensual").textContent;
-
-    const anual =
-      document.getElementById("realAnual").textContent;
-
-    const kilometro =
-      document.getElementById("realKm").textContent;
-
+    const mensual = document.getElementById("realMensual").textContent;
+    const anual = document.getElementById("realAnual").textContent;
+    const kilometro = document.getElementById("realKm").textContent;
 
     const texto =
       "Mi coche me cuesta realmente " +
@@ -265,12 +150,49 @@ document
       kilometro +
       " €/km.";
 
-
-    // Compartir mediante el sistema del móvil
-
     if (navigator.share) {
 
       try {
-
         await navigator.share({
-          title: "Coste Real de mi C
+          title: "Coste Real de mi Coche",
+          text: texto
+        });
+      } catch (error) {
+        // Cancelado por el usuario.
+      }
+
+    } else {
+
+      try {
+        await navigator.clipboard.writeText(texto);
+
+        const mensaje = document.getElementById("share-message");
+
+        mensaje.classList.remove("hidden");
+
+        setTimeout(function () {
+          mensaje.classList.add("hidden");
+        }, 3000);
+
+      } catch (error) {
+        alert(texto);
+      }
+    }
+  });
+
+
+  // CALCULAR DE NUEVO
+
+  btnRecalcular.addEventListener("click", function () {
+
+    resultados.classList.add("hidden");
+
+    formulario.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+
+    document.getElementById("precioCompra").focus();
+  });
+
+});
