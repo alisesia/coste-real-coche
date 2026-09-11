@@ -1,29 +1,292 @@
-function calculate() {
-    const price = parseFloat(document.getElementById('price').value) || 0;
-    const km = parseFloat(document.getElementById('km').value) || 0;
-    const consumption = parseFloat(document.getElementById('consumption').value) || 0;
-    const fuelPrice = parseFloat(document.getElementById('fuelPrice').value) || 0;
-    const insurance = parseFloat(document.getElementById('insurance').value) || 0;
-    const maintenance = parseFloat(document.getElementById('maintenance').value) || 0;
-    const other = parseFloat(document.getElementById('other').value) || 0;
+document
+  .getElementById('calc-form')
+  .addEventListener('submit', function (e) {
 
-    if (km <= 0) {
-        alert("Por favor, introduce una cantidad válida de kilómetros al año.");
-        return;
+    e.preventDefault();
+
+
+    // Ocultar resultados anteriores
+
+    const resultadosDiv =
+      document.getElementById('resultados');
+
+    resultadosDiv.classList.add('hidden');
+
+
+    // Obtener valores
+
+    const precioCompra =
+      parseFloat(
+        document.getElementById('precioCompra').value
+      );
+
+    const valorFinal =
+      parseFloat(
+        document.getElementById('valorFinal').value
+      );
+
+    const periodoAnos =
+      parseFloat(
+        document.getElementById('periodoAnos').value
+      );
+
+    const kmAno =
+      parseFloat(
+        document.getElementById('kmAno').value
+      );
+
+    const consumo =
+      parseFloat(
+        document.getElementById('consumo').value
+      );
+
+    const precioCombustible =
+      parseFloat(
+        document.getElementById('precioCombustible').value
+      );
+
+    const seguro =
+      parseFloat(
+        document.getElementById('seguro').value
+      );
+
+    const mantenimiento =
+      parseFloat(
+        document.getElementById('mantenimiento').value
+      );
+
+    const otrosGastos =
+      parseFloat(
+        document.getElementById('otrosGastos').value
+      );
+
+
+    // ==========================
+    // VALIDACIONES
+    // ==========================
+
+
+    if (
+      isNaN(precioCompra) ||
+      precioCompra <= 0
+    ) {
+      alert(
+        'El precio de compra debe ser un número mayor que 0.'
+      );
+
+      return;
     }
 
-    // Cálculos principales
-    const annualFuelCost = (km / 100) * consumption * fuelPrice;
-    const totalAnnualCost = annualFuelCost + insurance + maintenance + other;
-    const totalMonthlyCost = totalAnnualCost / 12;
-    const costPerKm = totalAnnualCost / km;
 
-    // Mostrar resultados formateados
-    document.getElementById('fuelCostYear').textContent = annualFuelCost.toFixed(2) + ' €';
-    document.getElementById('monthlyCost').textContent = totalMonthlyCost.toFixed(2) + ' €';
-    document.getElementById('annualCost').textContent = totalAnnualCost.toFixed(2) + ' €';
-    document.getElementById('costPerKm').textContent = costPerKm.toFixed(2) + ' €/km';
+    if (
+      isNaN(valorFinal) ||
+      valorFinal < 0
+    ) {
+      alert(
+        'El valor estimado final no puede ser un número negativo.'
+      );
 
-    // Hacer visible el bloque de resultados
-    document.getElementById('results').classList.remove('hidden');
-}
+      return;
+    }
+
+
+    if (valorFinal > precioCompra) {
+      alert(
+        'El valor estimado final del coche no puede ser superior al precio de compra.'
+      );
+
+      return;
+    }
+
+
+    if (
+      isNaN(periodoAnos) ||
+      periodoAnos <= 0
+    ) {
+      alert(
+        'El periodo de propiedad debe ser al menos de 1 año.'
+      );
+
+      return;
+    }
+
+
+    if (
+      isNaN(kmAno) ||
+      kmAno <= 0
+    ) {
+      alert(
+        'Los kilómetros al año deben ser un número mayor que 0.'
+      );
+
+      return;
+    }
+
+
+    if (
+      isNaN(consumo) ||
+      consumo < 0
+    ) {
+      alert(
+        'El consumo de combustible no puede ser un valor negativo.'
+      );
+
+      return;
+    }
+
+
+    if (
+      isNaN(precioCombustible) ||
+      precioCombustible < 0
+    ) {
+      alert(
+        'El precio del combustible no puede ser un valor negativo.'
+      );
+
+      return;
+    }
+
+
+    if (
+      isNaN(seguro) ||
+      seguro < 0
+    ) {
+      alert(
+        'El coste del seguro no puede ser un valor negativo.'
+      );
+
+      return;
+    }
+
+
+    if (
+      isNaN(mantenimiento) ||
+      mantenimiento < 0
+    ) {
+      alert(
+        'El coste de mantenimiento no puede ser un valor negativo.'
+      );
+
+      return;
+    }
+
+
+    if (
+      isNaN(otrosGastos) ||
+      otrosGastos < 0
+    ) {
+      alert(
+        'Los otros gastos anuales no pueden ser negativos.'
+      );
+
+      return;
+    }
+
+
+    // ==========================
+    // 1. DEPRECIACIÓN
+    // ==========================
+
+
+    const depreciacionTotal =
+      precioCompra - valorFinal;
+
+
+    const depreciacionAnual =
+      depreciacionTotal / periodoAnos;
+
+
+    const depreciacionMensual =
+      depreciacionAnual / 12;
+
+
+    // ==========================
+    // 2. COSTE DE BOLSILLO
+    // ==========================
+
+
+    const gastoCombustibleAnual =
+      (kmAno / 100) *
+      consumo *
+      precioCombustible;
+
+
+    const bolsilloAnual =
+      gastoCombustibleAnual +
+      seguro +
+      mantenimiento +
+      otrosGastos;
+
+
+    const bolsilloMensual =
+      bolsilloAnual / 12;
+
+
+    // ==========================
+    // 3. COSTE REAL
+    // ==========================
+
+
+    const costeRealAnual =
+      bolsilloAnual +
+      depreciacionAnual;
+
+
+    const costeRealMensual =
+      costeRealAnual / 12;
+
+
+    const costeRealKm =
+      costeRealAnual / kmAno;
+
+
+    // ==========================
+    // MOSTRAR RESULTADOS
+    // ==========================
+
+
+    document.getElementById('pocketAnual')
+      .textContent =
+      bolsilloAnual.toFixed(2);
+
+
+    document.getElementById('pocketMensual')
+      .textContent =
+      bolsilloMensual.toFixed(2);
+
+
+    document.getElementById('deprecTotal')
+      .textContent =
+      depreciacionTotal.toFixed(2);
+
+
+    document.getElementById('deprecAnual')
+      .textContent =
+      depreciacionAnual.toFixed(2);
+
+
+    document.getElementById('deprecMensual')
+      .textContent =
+      depreciacionMensual.toFixed(2);
+
+
+    document.getElementById('realAnual')
+      .textContent =
+      costeRealAnual.toFixed(2);
+
+
+    document.getElementById('realMensual')
+      .textContent =
+      costeRealMensual.toFixed(2);
+
+
+    document.getElementById('realKm')
+      .textContent =
+      costeRealKm.toFixed(3);
+
+
+    // Mostrar resultados
+
+    resultadosDiv.classList.remove('hidden');
+
+  });
