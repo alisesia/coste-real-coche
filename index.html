@@ -1,90 +1,390 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Calculadora del Coste Real de tu Coche</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Calculadora de Coste Real del Coche</title>
+
+    <meta
+        name="description"
+        content="Calcula cuánto te cuesta realmente tu coche incluyendo combustible, gastos fijos y depreciación."
+    >
+
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-  <div class="container">
-    <h1>Calculadora del Coste Real de tu Coche</h1>
-    <p class="subtitle">Descubre cuánto te cuesta realmente moverte al mes, al año y por kilómetro.</p>
 
-    <form id="calc-form">
-      <div class="form-group">
-        <label for="precioCompra">Precio de compra del coche (€):</label>
-        <input type="number" id="precioCompra" placeholder="Ej: 18000" min="0" step="any" required>
-      </div>
+<div class="app">
 
-      <div class="form-group">
-        <label for="valorFinal">Valor estimado después del periodo (€):</label>
-        <input type="number" id="valorFinal" placeholder="Ej: 8000" min="0" step="any" required>
-      </div>
+    <!-- CABECERA -->
+    <header class="hero">
+        <div class="hero-badge">CALCULADORA FINANCIERA</div>
 
-      <div class="form-group">
-        <label for="periodoAnos">Periodo de propiedad (años):</label>
-        <input type="number" id="periodoAnos" placeholder="Ej: 5" min="1" step="any" required>
-      </div>
+        <h1>¿Cuánto te cuesta realmente tu coche?</h1>
 
-      <div class="form-group">
-        <label for="kmAno">Kilómetros al año:</label>
-        <input type="number" id="kmAno" placeholder="Ej: 15000" min="1" step="any" required>
-      </div>
+        <p>
+            Calcula el coste real de tener tu coche teniendo en cuenta
+            combustible, gastos fijos y depreciación.
+        </p>
+    </header>
 
-      <div class="form-group">
-        <label for="consumo">Consumo (L/100 km):</label>
-        <input type="number" id="consumo" placeholder="Ej: 6.0" min="0" step="any" required>
-      </div>
 
-      <div class="form-group">
-        <label for="precioCombustible">Precio del combustible (€/L):</label>
-        <input type="number" id="precioCombustible" placeholder="Ej: 1.50" min="0" step="any" required>
-      </div>
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="main-grid">
 
-      <div class="form-group">
-        <label for="seguro">Seguro anual (€):</label>
-        <input type="number" id="seguro" placeholder="Ej: 650" min="0" step="any" required>
-      </div>
+        <!-- FORMULARIO -->
+        <section class="card input-card">
 
-      <div class="form-group">
-        <label for="mantenimiento">Mantenimiento y revisiones anuales (€):</label>
-        <input type="number" id="mantenimiento" placeholder="Ej: 500" min="0" step="any" required>
-      </div>
+            <div class="card-header">
+                <div>
+                    <span class="section-number">01</span>
+                    <h2>Datos del vehículo</h2>
+                </div>
 
-      <div class="form-group">
-        <label for="otrosGastos">Otros gastos anuales (ITV, parking, impuestos) (€):</label>
-        <input type="number" id="otrosGastos" placeholder="Ej: 300" min="0" step="any" required>
-      </div>
+                <span class="required">Todos los campos</span>
+            </div>
 
-      <button type="submit" id="btn-calcular">Calcular Coste Real</button>
-    </form>
 
-    <div id="resultados" class="results-container hidden">
-      <h2>Resumen de Costes</h2>
+            <!-- PRECIO -->
+            <div class="form-group">
+                <label for="purchasePrice">
+                    Precio de compra
+                    <span>€</span>
+                </label>
 
-      <div class="results-section">
-        <h3>COSTE DE BOLSILLO</h3>
-        <p><span>Anual:</span> <strong><span id="pocketAnual">0.00</span> €</strong></p>
-        <p><span>Mensual:</span> <strong><span id="pocketMensual">0.00</span> €</strong></p>
-      </div>
+                <div class="input-wrapper">
+                    <input
+                        type="number"
+                        id="purchasePrice"
+                        placeholder="25.000"
+                        min="0"
+                        step="0.01"
+                    >
+                    <span>€</span>
+                </div>
+            </div>
 
-      <div class="results-section">
-        <h3>DEPRECIACIÓN</h3>
-        <p><span>Depreciación total:</span> <strong><span id="deprecTotal">0.00</span> €</strong></p>
-        <p><span>Pérdida de valor anual:</span> <strong><span id="deprecAnual">0.00</span> €</strong></p>
-        <p><span>Pérdida de valor mensual:</span> <strong><span id="deprecMensual">0.00</span> €</strong></p>
-      </div>
 
-      <div class="results-section highlight">
-        <h3>COSTE REAL TOTAL</h3>
-        <p class="main-stat"><span>Coste real mensual:</span> <strong><span id="realMensual">0.00</span> €</strong></p>
-        <p class="main-stat"><span>Coste real anual:</span> <strong><span id="realAnual">0.00</span> €</strong></p>
-        <p class="main-stat"><span>Coste real por kilómetro:</span> <strong><span id="realKm">0.000</span> €/km</strong></p>
-      </div>
-    </div>
-  </div>
+            <!-- VALOR FINAL -->
+            <div class="form-group">
+                <label for="residualValue">
+                    Valor estimado al final
+                    <span>€</span>
+                </label>
 
-  <script src="script.js"></script>
+                <div class="input-wrapper">
+                    <input
+                        type="number"
+                        id="residualValue"
+                        placeholder="15.000"
+                        min="0"
+                        step="0.01"
+                    >
+                    <span>€</span>
+                </div>
+            </div>
+
+
+            <!-- PERIODO -->
+            <div class="form-row">
+
+                <div class="form-group">
+                    <label for="years">
+                        Periodo de propiedad
+                    </label>
+
+                    <div class="input-wrapper">
+                        <input
+                            type="number"
+                            id="years"
+                            placeholder="5"
+                            min="1"
+                            step="1"
+                        >
+                        <span>años</span>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="kmYear">
+                        Kilómetros al año
+                    </label>
+
+                    <div class="input-wrapper">
+                        <input
+                            type="number"
+                            id="kmYear"
+                            placeholder="15.000"
+                            min="1"
+                            step="1"
+                        >
+                        <span>km</span>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- COMBUSTIBLE -->
+            <div class="form-section-title">
+                <span>Combustible</span>
+            </div>
+
+            <div class="form-row">
+
+                <div class="form-group">
+                    <label for="consumption">
+                        Consumo
+                    </label>
+
+                    <div class="input-wrapper">
+                        <input
+                            type="number"
+                            id="consumption"
+                            placeholder="6,5"
+                            min="0"
+                            step="0.1"
+                        >
+                        <span>L/100 km</span>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="fuelPrice">
+                        Precio combustible
+                    </label>
+
+                    <div class="input-wrapper">
+                        <input
+                            type="number"
+                            id="fuelPrice"
+                            placeholder="1,60"
+                            min="0"
+                            step="0.01"
+                        >
+                        <span>€/L</span>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- GASTOS FIJOS -->
+            <div class="form-section-title">
+                <span>Gastos fijos anuales</span>
+            </div>
+
+            <div class="form-group">
+                <label for="fixedCosts">
+                    Seguro, mantenimiento, ITV, impuestos, parking...
+                </label>
+
+                <div class="input-wrapper">
+                    <input
+                        type="number"
+                        id="fixedCosts"
+                        placeholder="1.000"
+                        min="0"
+                        step="0.01"
+                    >
+                    <span>€/año</span>
+                </div>
+            </div>
+
+
+            <!-- BOTÓN -->
+            <button
+                type="button"
+                id="calculateBtn"
+                class="calculate-btn"
+            >
+                <span>Calcular coste real</span>
+                <span class="arrow">→</span>
+            </button>
+
+            <p id="errorMessage" class="error-message"></p>
+
+        </section>
+
+
+        <!-- RESULTADOS -->
+        <section class="results-card">
+
+            <div class="results-header">
+                <div>
+                    <span class="section-number light">02</span>
+                    <h2>Resumen de costes</h2>
+                </div>
+
+                <span class="result-status">
+                    Resultado
+                </span>
+            </div>
+
+
+            <!-- COSTE REAL DESTACADO -->
+            <div class="main-result">
+
+                <span class="main-label">
+                    Coste real mensual
+                </span>
+
+                <div class="main-value">
+                    <span id="monthlyTotal">0,00 €</span>
+                </div>
+
+                <p>
+                    Lo que realmente te cuesta el coche cada mes,
+                    incluyendo depreciación.
+                </p>
+
+            </div>
+
+
+            <!-- MINI RESULTADOS -->
+            <div class="highlight-grid">
+
+                <div class="highlight-card">
+                    <span>Coste anual</span>
+                    <strong id="annualTotal">0,00 €</strong>
+                </div>
+
+                <div class="highlight-card">
+                    <span>Coste por km</span>
+                    <strong id="costPerKm">0,00 €</strong>
+                </div>
+
+                <div class="highlight-card wide">
+                    <span>Coste total durante el periodo</span>
+                    <strong id="periodTotal">0,00 €</strong>
+                </div>
+
+            </div>
+
+
+            <!-- DESGLOSE -->
+            <div class="breakdown">
+
+                <div class="breakdown-title">
+                    <span>Desglose</span>
+                </div>
+
+
+                <!-- BOLSILLO -->
+                <div class="breakdown-row">
+
+                    <div class="breakdown-info">
+                        <div class="icon-box fuel-icon">€</div>
+
+                        <div>
+                            <strong>Coste de bolsillo</strong>
+                            <small>Gastos que pagas durante el año</small>
+                        </div>
+                    </div>
+
+                    <div class="breakdown-values">
+                        <strong id="pocketAnnual">0,00 €</strong>
+                        <span id="pocketMonthly">0,00 €/mes</span>
+                    </div>
+
+                </div>
+
+
+                <!-- DEPRECIACIÓN -->
+                <div class="breakdown-row">
+
+                    <div class="breakdown-info">
+                        <div class="icon-box depreciation-icon">↓</div>
+
+                        <div>
+                            <strong>Depreciación</strong>
+                            <small>Pérdida de valor del vehículo</small>
+                        </div>
+                    </div>
+
+                    <div class="breakdown-values">
+                        <strong id="depreciationTotal">0,00 €</strong>
+                        <span id="depreciationAnnual">0,00 €/año</span>
+                    </div>
+
+                </div>
+
+
+                <!-- COMBUSTIBLE -->
+                <div class="breakdown-row">
+
+                    <div class="breakdown-info">
+                        <div class="icon-box">⛽</div>
+
+                        <div>
+                            <strong>Combustible</strong>
+                            <small>Estimación según tus kilómetros</small>
+                        </div>
+                    </div>
+
+                    <div class="breakdown-values">
+                        <strong id="fuelAnnual">0,00 €</strong>
+                        <span id="fuelMonthly">0,00 €/mes</span>
+                    </div>
+
+                </div>
+
+
+                <!-- FIJOS -->
+                <div class="breakdown-row">
+
+                    <div class="breakdown-info">
+                        <div class="icon-box">+</div>
+
+                        <div>
+                            <strong>Gastos fijos</strong>
+                            <small>Seguro, mantenimiento y otros</small>
+                        </div>
+                    </div>
+
+                    <div class="breakdown-values">
+                        <strong id="fixedAnnual">0,00 €</strong>
+                        <span id="fixedMonthly">0,00 €/mes</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- BOTÓN RESET -->
+            <button
+                type="button"
+                id="resetBtn"
+                class="reset-btn"
+            >
+                Calcular de nuevo
+            </button>
+
+        </section>
+
+    </main>
+
+
+    <!-- INFORMACIÓN -->
+    <footer class="footer">
+
+        <p>
+            El resultado es una estimación basada en los datos introducidos.
+            No incluye financiación, reparaciones extraordinarias ni otros
+            gastos no indicados.
+        </p>
+
+    </footer>
+
+</div>
+
+
+<script src="script.js"></script>
+
 </body>
 </html>
