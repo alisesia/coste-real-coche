@@ -2,622 +2,151 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
 body {
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Roboto,
-    Helvetica,
-    Arial,
-    sans-serif;
-
-  background: #f5f7fa;
-  color: #17202a;
-  padding: 24px 14px 40px;
-  min-height: 100vh;
+  background-color: #f4f7f6;
+  color: #333;
+  padding: 20px 15px;
+  display: flex;
+  justify-content: center;
 }
 
 .container {
+  background-color: #ffffff;
+  max-width: 600px;
   width: 100%;
-  max-width: 680px;
-  margin: 0 auto;
+  padding: 25px 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
 }
 
-/* =========================
-   CABECERA
-========================= */
+h1 {
+  font-size: 1.5rem;
+  color: #1a252c;
+  margin-bottom: 8px;
+  text-align: center;
+}
 
-.header {
+.subtitle {
+  font-size: 0.95rem;
+  color: #666;
   text-align: center;
   margin-bottom: 25px;
 }
 
-.badge {
-  display: inline-block;
-  padding: 6px 10px;
+.form-section {
+  margin-bottom: 20px;
+}
+
+.form-section h2 {
+  font-size: 1.1rem;
+  color: #1a252c;
   margin-bottom: 12px;
-  border-radius: 20px;
-  background: #e8f2ff;
-  color: #0066cc;
-  font-size: 0.7rem;
-  font-weight: 800;
-  letter-spacing: 0.5px;
-}
-
-h1 {
-  font-size: 1.9rem;
-  line-height: 1.2;
-  margin-bottom: 10px;
-}
-
-.subtitle {
-  max-width: 520px;
-  margin: 0 auto;
-  color: #667085;
-  font-size: 0.94rem;
-  line-height: 1.5;
-}
-
-/* =========================
-   FORMULARIO
-========================= */
-
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.form-card {
-  background: #ffffff;
-  border: 1px solid #e4e7ec;
-  border-radius: 14px;
-  padding: 20px;
-}
-
-.form-card h2 {
-  font-size: 1rem;
-  margin-bottom: 17px;
-  color: #344054;
-}
-
-.form-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 15px;
 }
 
 .form-group {
-  min-width: 0;
-}
-
-.full-width {
-  grid-column: 1 / -1;
+  margin-bottom: 16px;
 }
 
 label {
   display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
   margin-bottom: 6px;
-  color: #344054;
-  font-size: 0.83rem;
-  font-weight: 650;
+  color: #2c3e50;
 }
 
 input {
   width: 100%;
-  padding: 12px 13px;
-  border: 1px solid #d0d5dd;
-  border-radius: 9px;
-  background: #ffffff;
-  color: #101828;
-  font-size: 0.95rem;
-  outline: none;
-
-  transition:
-    border-color 0.15s ease,
-    box-shadow 0.15s ease;
-}
-
-input:focus {
-  border-color: #0066cc;
-
-  box-shadow:
-    0 0 0 3px rgba(0, 102, 204, 0.10);
-}
-
-input::placeholder {
-  color: #98a2b3;
-}
-
-/* =========================
-   BOTÓN PRINCIPAL
-========================= */
-
-.primary-button {
-  width: 100%;
-  border: none;
-  border-radius: 10px;
-  padding: 14px 18px;
-  margin-top: 2px;
-
-  background: #0066cc;
-  color: #ffffff;
-
-  font-size: 0.98rem;
-  font-weight: 750;
-
-  cursor: pointer;
-
-  transition:
-    background 0.15s ease,
-    transform 0.1s ease;
-}
-
-.primary-button:hover {
-  background: #0052a3;
-}
-
-.primary-button:active {
-  transform: scale(0.99);
-}
-
-/* =========================
-   RESULTADOS
-========================= */
-
-.results-container {
-  margin-top: 32px;
-}
-
-.results-container.hidden {
-  display: none;
-}
-
-.results-header {
-  text-align: center;
-  margin-bottom: 15px;
-}
-
-.results-label {
-  color: #0066cc;
-  font-size: 0.68rem;
-  font-weight: 800;
-  letter-spacing: 1px;
-}
-
-.results-header h2 {
-  margin-top: 4px;
-  font-size: 1.25rem;
-  line-height: 1.3;
-}
-
-/* =========================
-   RESULTADO PRINCIPAL
-========================= */
-
-.main-result {
-  background:
-    linear-gradient(
-      145deg,
-      #0066cc,
-      #004a99
-    );
-
-  color: #ffffff;
-
-  border-radius: 17px;
-  padding: 25px 20px;
-
-  text-align: center;
-
-  box-shadow:
-    0 10px 25px rgba(0, 78, 153, 0.18);
-
-  margin-bottom: 14px;
-}
-
-.main-result-label {
-  display: block;
-  opacity: 0.85;
-  font-size: 0.83rem;
-  margin-bottom: 5px;
-}
-
-.main-result-value {
-  font-size: 2.35rem;
-  font-weight: 850;
-  line-height: 1.1;
-  letter-spacing: -1px;
-}
-
-.main-result-value small {
-  font-size: 0.95rem;
-  font-weight: 600;
-  letter-spacing: 0;
-  opacity: 0.9;
-}
-
-.main-result-details {
-  display: flex;
-  justify-content: center;
-  gap: 45px;
-
-  margin-top: 20px;
-  padding-top: 15px;
-
-  border-top:
-    1px solid rgba(255, 255, 255, 0.2);
-}
-
-.main-result-details div {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-
-.main-result-details strong {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
   font-size: 1rem;
 }
 
-.main-result-details span {
-  font-size: 0.72rem;
-  opacity: 0.75;
+input:focus {
+  outline: none;
+  border-color: #0066cc;
 }
 
-/* =========================
-   TARJETAS DE RESULTADOS
-========================= */
-
-.results-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 11px;
-
-  margin-bottom: 14px;
-}
-
-.result-card {
-  background: #ffffff;
-
-  border: 1px solid #e4e7ec;
-  border-radius: 13px;
-
-  padding: 15px;
-
-  min-width: 0;
-}
-
-.card-icon {
-  width: 28px;
-  height: 28px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border-radius: 8px;
-
-  background: #f2f4f7;
-  color: #475467;
-
-  font-size: 0.85rem;
-  font-weight: 800;
-
-  margin-bottom: 11px;
-}
-
-.card-title {
-  color: #667085;
-
-  font-size: 0.72rem;
-  font-weight: 650;
-
-  line-height: 1.3;
-
-  margin-bottom: 5px;
-}
-
-.card-value {
-  color: #101828;
-
-  font-size: 1.05rem;
-  font-weight: 800;
-
-  white-space: nowrap;
-}
-
-.card-secondary {
-  color: #667085;
-
-  font-size: 0.72rem;
-
-  margin-top: 3px;
-
-  white-space: nowrap;
-}
-
-.card-description {
-  color: #98a2b3;
-
-  font-size: 0.68rem;
-  line-height: 1.3;
-
-  margin-top: 9px;
-}
-
-.featured-card {
-  border-color: #b9d9ff;
-  background: #f7fbff;
-}
-
-.featured-card .card-icon {
-  background: #e8f2ff;
-  color: #0066cc;
-}
-
-.featured-card .card-value {
-  color: #0052a3;
-}
-
-/* =========================
-   PÉRDIDA TOTAL
-========================= */
-
-.depreciation-total {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  gap: 15px;
-
-  background: #ffffff;
-
-  border: 1px solid #e4e7ec;
-  border-radius: 11px;
-
-  padding: 13px 15px;
-
-  margin-bottom: 14px;
-}
-
-.depreciation-total span {
-  color: #667085;
-
-  font-size: 0.76rem;
-  font-weight: 600;
-}
-
-.depreciation-total strong {
-  color: #344054;
-
-  font-size: 0.95rem;
-  font-weight: 800;
-
-  white-space: nowrap;
-}
-
-/* =========================
-   INFORMACIÓN
-========================= */
-
-.info-box {
-  background: #ffffff;
-
-  border: 1px solid #e4e7ec;
-  border-radius: 11px;
-
-  padding: 13px 15px;
-
-  margin-bottom: 14px;
-}
-
-.info-box strong {
-  display: block;
-
-  color: #344054;
-
-  font-size: 0.78rem;
-
-  margin-bottom: 4px;
-}
-
-.info-box p {
-  color: #667085;
-
-  font-size: 0.73rem;
-  line-height: 1.4;
-}
-
-/* =========================
-   BOTONES DE RESULTADOS
-========================= */
-
-.result-actions {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-
-  gap: 10px;
-}
-
-.secondary-button {
+button {
   width: 100%;
-
-  padding: 12px;
-
-  border-radius: 9px;
-  border: 1px solid #d0d5dd;
-
-  background: #ffffff;
-  color: #344054;
-
-  font-size: 0.82rem;
-  font-weight: 700;
-
+  background-color: #0066cc;
+  color: white;
+  border: none;
+  padding: 14px;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 8px;
   cursor: pointer;
-
-  transition:
-    background 0.15s ease,
-    border-color 0.15s ease;
+  margin-top: 10px;
 }
 
-.secondary-button:hover {
-  background: #f9fafb;
-  border-color: #bfc5cc;
+button:hover {
+  background-color: #0052a3;
 }
 
-.secondary-button:active {
-  transform: scale(0.99);
+.results-container {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 2px dashed #e0e0e0;
 }
 
-/* =========================
-   MENSAJE COMPARTIR
-========================= */
+.results-container.hidden {
+  display: none !important;
+}
 
-.share-message {
+.results-container h2 {
+  font-size: 1.3rem;
   text-align: center;
-
-  margin-top: 9px;
-
-  color: #027a48;
-
-  font-size: 0.75rem;
+  margin-bottom: 20px;
+  color: #1a252c;
 }
 
-.share-message.hidden {
-  display: none;
+.results-section {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  padding: 16px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.03);
 }
 
-/* =========================
-   FOOTER
-========================= */
-
-.footer {
-  text-align: center;
-
-  margin-top: 25px;
-
-  color: #98a2b3;
-
-  font-size: 0.68rem;
+.results-section h3 {
+  font-size: 0.9rem;
+  color: #64748b;
+  margin-bottom: 12px;
+  border-bottom: 1px solid #f1f5f9;
+  padding-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-/* =========================
-   MÓVIL
-========================= */
-
-@media (max-width: 560px) {
-
-  body {
-    padding: 15px 10px 30px;
-  }
-
-  .container {
-    max-width: 100%;
-  }
-
-  .header {
-    margin-bottom: 20px;
-  }
-
-  h1 {
-    font-size: 1.55rem;
-  }
-
-  .subtitle {
-    font-size: 0.86rem;
-  }
-
-  .form-card {
-    padding: 17px;
-  }
-
-  .form-grid {
-    grid-template-columns: 1fr;
-    gap: 13px;
-  }
-
-  .full-width {
-    grid-column: auto;
-  }
-
-  .results-container {
-    margin-top: 26px;
-  }
-
-  .results-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-  }
-
-  .featured-card {
-    grid-column: 1 / -1;
-  }
-
-  .main-result {
-    padding: 23px 15px;
-  }
-
-  .main-result-value {
-    font-size: 2rem;
-  }
-
-  .main-result-details {
-    gap: 35px;
-  }
-
-  .result-card {
-    padding: 14px;
-  }
-
-  .card-value {
-    font-size: 0.98rem;
-  }
-
-  .depreciation-total {
-    padding: 13px;
-  }
-
-  .result-actions {
-    grid-template-columns: 1fr;
-  }
+.results-section p {
+  font-size: 0.95rem;
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-/* =========================
-   MÓVILES MUY PEQUEÑOS
-========================= */
+.results-section p:last-child {
+  margin-bottom: 0;
+}
 
-@media (max-width: 360px) {
+.results-section.highlight {
+  background-color: #eff6ff;
+  border-color: #bfdbfe;
+}
 
-  body {
-    padding-left: 8px;
-    padding-right: 8px;
-  }
+.results-section.highlight h3 {
+  color: #1e40af;
+  border-bottom-color: #dbeafe;
+}
 
-  h1 {
-    font-size: 1.4rem;
-  }
-
-  .results-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .featured-card {
-    grid-column: auto;
-  }
-
-  .main-result-value {
-    font-size: 1.8rem;
-  }
-
-  .main-result-details {
-    gap: 20px;
-  }
-
-  .depreciation-total {
-    flex-direction: column;
-    align-items: flex-start;
-  }
+.main-stat strong {
+  color: #2563eb;
+  font-size: 1.05rem;
 }
