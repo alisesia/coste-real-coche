@@ -1,22 +1,26 @@
 document.addEventListener('DOMContentLoaded', function () {
   const form = document.getElementById('calc-form');
-  if (!form) return;
+  const btnCalcular = document.getElementById('btn-calcular');
 
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
+  // Función principal para procesar los cálculos
+  function procesarCalculo(e) {
+    if (e) e.preventDefault();
 
     const resultadosDiv = document.getElementById('resultados');
+    if (!resultadosDiv) return;
 
-    const precioCompra = parseFloat(document.getElementById('precioCompra').value) || 0;
-    const valorFinal = parseFloat(document.getElementById('valorFinal').value) || 0;
-    const periodoAnos = parseFloat(document.getElementById('periodoAnos').value) || 1;
-    const kmAno = parseFloat(document.getElementById('kmAno').value) || 0;
-    const consumo = parseFloat(document.getElementById('consumo').value) || 0;
-    const precioCombustible = parseFloat(document.getElementById('precioCombustible').value) || 0;
-    const seguro = parseFloat(document.getElementById('seguro').value) || 0;
-    const mantenimiento = parseFloat(document.getElementById('mantenimiento').value) || 0;
-    const otrosGastos = parseFloat(document.getElementById('otrosGastos').value) || 0;
+    // Obtener y parsear los valores
+    const precioCompra = parseFloat(document.getElementById('precioCompra')?.value) || 0;
+    const valorFinal = parseFloat(document.getElementById('valorFinal')?.value) || 0;
+    const periodoAnos = parseFloat(document.getElementById('periodoAnos')?.value) || 1;
+    const kmAno = parseFloat(document.getElementById('kmAno')?.value) || 0;
+    const consumo = parseFloat(document.getElementById('consumo')?.value) || 0;
+    const precioCombustible = parseFloat(document.getElementById('precioCombustible')?.value) || 0;
+    const seguro = parseFloat(document.getElementById('seguro')?.value) || 0;
+    const mantenimiento = parseFloat(document.getElementById('mantenimiento')?.value) || 0;
+    const otrosGastos = parseFloat(document.getElementById('otrosGastos')?.value) || 0;
 
+    // Validaciones básicas
     if (precioCompra <= 0 || kmAno <= 0 || periodoAnos <= 0) {
       alert('Ingresa valores válidos en el precio, kilómetros y años.');
       return;
@@ -38,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const bolsilloAnual = gastoCombustibleAnual + seguro + mantenimiento + otrosGastos;
     const bolsilloMensual = bolsilloAnual / 12;
 
-    // 3. Coste Real
+    // 3. Coste Real Total
     const costeRealAnual = bolsilloAnual + depreciacionAnual;
     const costeRealMensual = costeRealAnual / 12;
     const costeRealPeriodo = costeRealAnual * periodoAnos;
@@ -59,48 +63,71 @@ document.addEventListener('DOMContentLoaded', function () {
     const pctDeprec = ((totalDepreciacion / costeRealPeriodo) * 100).toFixed(1);
 
     // INYECCIÓN DE DATOS
-    document.getElementById('lblAnosPeriodo').textContent = periodoAnos;
-    document.getElementById('realPeriodo').textContent = costeRealPeriodo.toFixed(2);
-    document.getElementById('realMensual').textContent = costeRealMensual.toFixed(2);
-    document.getElementById('realAnual').textContent = costeRealAnual.toFixed(2);
-    document.getElementById('realKm').textContent = costeRealKm.toFixed(3);
+    const setTexto = (id, txt) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = txt;
+    };
+
+    setTexto('lblAnosPeriodo', periodoAnos);
+    setTexto('realPeriodo', costeRealPeriodo.toFixed(2));
+    setTexto('realMensual', costeRealMensual.toFixed(2));
+    setTexto('realAnual', costeRealAnual.toFixed(2));
+    setTexto('realKm', costeRealKm.toFixed(3));
 
     // Comparativa
-    document.getElementById('compBolsillo').textContent = bolsilloMensual.toFixed(2);
-    document.getElementById('compReal').textContent = costeRealMensual.toFixed(2);
-    document.getElementById('compDiferencia').textContent = depreciacionMensual.toFixed(2);
+    setTexto('compBolsillo', bolsilloMensual.toFixed(2));
+    setTexto('compReal', costeRealMensual.toFixed(2));
+    setTexto('compDiferencia', depreciacionMensual.toFixed(2));
 
     // Desglose
-    document.getElementById('costoCombustible').textContent = totalCombustible.toFixed(2);
-    document.getElementById('pctCombustible').textContent = pctCombustible;
-    document.getElementById('barCombustible').style.width = pctCombustible + '%';
+    setTexto('costoCombustible', totalCombustible.toFixed(2));
+    setTexto('pctCombustible', pctCombustible);
+    const barComb = document.getElementById('barCombustible');
+    if (barComb) barComb.style.width = pctCombustible + '%';
 
-    document.getElementById('costoSeguro').textContent = totalSeguro.toFixed(2);
-    document.getElementById('pctSeguro').textContent = pctSeguro;
-    document.getElementById('barSeguro').style.width = pctSeguro + '%';
+    setTexto('costoSeguro', totalSeguro.toFixed(2));
+    setTexto('pctSeguro', pctSeguro);
+    const barSeg = document.getElementById('barSeguro');
+    if (barSeg) barSeg.style.width = pctSeguro + '%';
 
-    document.getElementById('costoMantenimiento').textContent = totalMantenimiento.toFixed(2);
-    document.getElementById('pctMantenimiento').textContent = pctMantenimiento;
-    document.getElementById('barMantenimiento').style.width = pctMantenimiento + '%';
+    setTexto('costoMantenimiento', totalMantenimiento.toFixed(2));
+    setTexto('pctMantenimiento', pctMantenimiento);
+    const barMant = document.getElementById('barMantenimiento');
+    if (barMant) barMant.style.width = pctMantenimiento + '%';
 
-    document.getElementById('costoOtros').textContent = totalOtros.toFixed(2);
-    document.getElementById('pctOtros').textContent = pctOtros;
-    document.getElementById('barOtros').style.width = pctOtros + '%';
+    setTexto('costoOtros', totalOtros.toFixed(2));
+    setTexto('pctOtros', pctOtros);
+    const barOtros = document.getElementById('barOtros');
+    if (barOtros) barOtros.style.width = pctOtros + '%';
 
-    document.getElementById('costoDeprec').textContent = totalDepreciacion.toFixed(2);
-    document.getElementById('pctDeprec').textContent = pctDeprec;
-    document.getElementById('barDeprec').style.width = pctDeprec + '%';
+    setTexto('costoDeprec', totalDepreciacion.toFixed(2));
+    setTexto('pctDeprec', pctDeprec);
+    const barDeprec = document.getElementById('barDeprec');
+    if (barDeprec) barDeprec.style.width = pctDeprec + '%';
 
+    // Mostrar sección
     resultadosDiv.classList.remove('hidden');
     resultadosDiv.scrollIntoView({ behavior: 'smooth' });
-  });
+  }
 
-  // Funcionalidad de Compartir
+  // Escuchar tanto el evento submit como el click directo en el botón
+  if (form) {
+    form.addEventListener('submit', procesarCalculo);
+  }
+  if (btnCalcular) {
+    btnCalcular.addEventListener('click', function(e) {
+      if (form && form.checkValidity()) {
+        procesarCalculo(e);
+      }
+    });
+  }
+
+  // Funcionalidad del botón de Compartir
   const btnCompartir = document.getElementById('btn-compartir');
   if (btnCompartir) {
     btnCompartir.addEventListener('click', function () {
-      const realMensual = document.getElementById('realMensual').textContent;
-      const realKm = document.getElementById('realKm').textContent;
+      const realMensual = document.getElementById('realMensual')?.textContent || '0';
+      const realKm = document.getElementById('realKm')?.textContent || '0';
       const shareData = {
         title: 'Coste Real de mi Coche',
         text: `El coste real de mi coche es de ${realMensual}€/mes (${realKm}€/km). ¡Calcula el tuyo aquí!`,
