@@ -2,7 +2,7 @@
 
 
 /* =====================================================
-   ELEMENTOS DEL FORMULARIO
+   ELEMENTOS PRINCIPALES
 ===================================================== */
 
 const purchasePriceInput = document.getElementById("purchasePrice");
@@ -19,12 +19,13 @@ const errorMessage = document.getElementById("errorMessage");
 
 
 /* =====================================================
-   ELEMENTOS DE RESULTADOS
+   RESULTADOS
 ===================================================== */
 
 const monthlyTotal = document.getElementById("monthlyTotal");
 const annualTotal = document.getElementById("annualTotal");
 const costPerKm = document.getElementById("costPerKm");
+const costPer1000Km = document.getElementById("costPer1000Km");
 const periodTotal = document.getElementById("periodTotal");
 
 const pocketAnnual = document.getElementById("pocketAnnual");
@@ -39,9 +40,38 @@ const fuelMonthly = document.getElementById("fuelMonthly");
 const fixedAnnual = document.getElementById("fixedAnnual");
 const fixedMonthly = document.getElementById("fixedMonthly");
 
+const insightText = document.getElementById("insightText");
+
 
 /* =====================================================
-   FORMATO DE EUROS
+   COMPARADOR
+===================================================== */
+
+const carAName = document.getElementById("carAName");
+const carBName = document.getElementById("carBName");
+
+const compareBPurchase = document.getElementById("compareBPurchase");
+const compareBResidual = document.getElementById("compareBResidual");
+const compareBYears = document.getElementById("compareBYears");
+const compareBKm = document.getElementById("compareBKm");
+const compareBConsumption = document.getElementById("compareBConsumption");
+const compareBFuelPrice = document.getElementById("compareBFuelPrice");
+const compareBFixed = document.getElementById("compareBFixed");
+
+const compareAMonthly = document.getElementById("compareAMonthly");
+const compareAAnnual = document.getElementById("compareAAnnual");
+const compareAKm = document.getElementById("compareAKm");
+
+const compareBMonthly = document.getElementById("compareBMonthly");
+const compareBAnnual = document.getElementById("compareBAnnual");
+const compareBKm = document.getElementById("compareBKm");
+
+const compareBtn = document.getElementById("compareBtn");
+const comparisonWinner = document.getElementById("comparisonWinner");
+
+
+/* =====================================================
+   FORMATO
 ===================================================== */
 
 function formatEuro(value) {
@@ -56,67 +86,158 @@ function formatEuro(value) {
 }
 
 
-/* =====================================================
-   FORMATO NÚMEROS
-===================================================== */
-
-function formatNumber(value) {
-
-    return new Intl.NumberFormat("es-ES", {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 2
-    }).format(value);
-
-}
-
-
-/* =====================================================
-   OBTENER VALOR NUMÉRICO
-===================================================== */
-
 function getNumber(input) {
 
     return Number(input.value);
 
+}
+
+
+/* =====================================================
+   CALCULAR VEHÍCULO
+===================================================== */
+
+function calculateVehicle(data) {
+
+    const purchasePrice = data.purchasePrice;
+    const residualValue = data.residualValue;
+    const years = data.years;
+    const kmYear = data.kmYear;
+    const consumption = data.consumption;
+    const fuelPrice = data.fuelPrice;
+    const fixedCosts = data.fixedCosts;
+
+
+    /*
+        Combustible:
+        km / 100 × consumo × precio
+    */
+
+    const litersYear =
+        (kmYear / 100) * consumption;
+
+    const annualFuelCost =
+        litersYear * fuelPrice;
+
+
+    /*
+        Coste de bolsillo
+    */
+
+    const annualPocketCost =
+        annualFuelCost + fixedCosts;
+
+
+    /*
+        Depreciación
+    */
+
+    const totalDepreciation =
+        Math.max(0, purchasePrice - residualValue);
+
+    const annualDepreciation =
+        totalDepreciation / years;
+
+
+    /*
+        Coste real
+    */
+
+    const annualRealCost =
+        annualPocketCost + annualDepreciation;
+
+    const monthlyRealCost =
+        annualRealCost / 12;
+
+    const realCostPerKm =
+        annualRealCost / kmYear;
+
+    const realCostPer1000Km =
+        realCostPerKm * 1000;
+
+
+    /*
+        Coste total durante todo el periodo
+    */
+
+    const totalPocketPeriod =
+        annualPocketCost * years;
+
+    const totalRealPeriod =
+        totalPocketPeriod + totalDepreciation;
+
+
+    return {
+
+        annualFuelCost,
+        monthlyFuelCost: annualFuelCost / 12,
+
+        annualPocketCost,
+        monthlyPocketCost: annualPocketCost / 12,
+
+        totalDepreciation,
+        annualDepreciation,
+
+        annualRealCost,
+        monthlyRealCost,
+
+        realCostPerKm,
+        realCostPer1000Km,
+
+        totalRealPeriod
+
+    };
 
 }
 
 
 /* =====================================================
-   VALIDACIÓN
+   DATOS PRINCIPALES
 ===================================================== */
 
-function validateInputs() {
+function getMainData() {
 
-    const purchasePrice = getNumber(purchasePriceInput);
-    const residualValue = getNumber(residualValueInput);
-    const years = getNumber(yearsInput);
-    const kmYear = getNumber(kmYearInput);
-    const consumption = getNumber(consumptionInput);
-    const fuelPrice = getNumber(fuelPriceInput);
-    const fixedCosts = getNumber(fixedCostsInput);
+    return {
+
+        purchasePrice: getNumber(purchasePriceInput),
+        residualValue: getNumber(residualValueInput),
+        years: getNumber(yearsInput),
+        kmYear: getNumber(kmYearInput),
+        consumption: getNumber(consumptionInput),
+        fuelPrice: getNumber(fuelPriceInput),
+        fixedCosts: getNumber(fixedCostsInput)
+
+    };
+
+}
 
 
-    if (
-        !Number.isFinite(purchasePrice) ||
-        !Number.isFinite(residualValue) ||
-        !Number.isFinite(years) ||
-        !Number.isFinite(kmYear) ||
-        !Number.isFinite(consumption) ||
-        !Number.isFinite(fuelPrice) ||
-        !Number.isFinite(fixedCosts)
-    ) {
+/* =====================================================
+   VALIDACIÓN PRINCIPAL
+===================================================== */
 
-        showError("Completa todos los campos antes de calcular.");
+function validateMainData() {
+
+    const data = getMainData();
+
+    const values = Object.values(data);
+
+    if (values.some(value => !Number.isFinite(value))) {
+
+        showError(
+            "Completa todos los campos antes de calcular."
+        );
 
         return false;
 
     }
 
 
-    if (purchasePrice <= 0) {
+    if (data.purchasePrice <= 0) {
 
-        showError("El precio de compra debe ser mayor que 0 €.");
+        showError(
+            "El precio de compra debe ser mayor que 0 €."
+        );
 
         purchasePriceInput.focus();
 
@@ -125,9 +246,11 @@ function validateInputs() {
     }
 
 
-    if (residualValue < 0) {
+    if (data.residualValue < 0) {
 
-        showError("El valor final no puede ser negativo.");
+        showError(
+            "El valor final no puede ser negativo."
+        );
 
         residualValueInput.focus();
 
@@ -136,9 +259,24 @@ function validateInputs() {
     }
 
 
-    if (years <= 0) {
+    if (data.residualValue > data.purchasePrice) {
 
-        showError("El periodo debe ser mayor que 0 años.");
+        showError(
+            "El valor final no debería ser superior al precio de compra."
+        );
+
+        residualValueInput.focus();
+
+        return false;
+
+    }
+
+
+    if (data.years <= 0) {
+
+        showError(
+            "El periodo debe ser mayor que 0 años."
+        );
 
         yearsInput.focus();
 
@@ -147,9 +285,11 @@ function validateInputs() {
     }
 
 
-    if (kmYear <= 0) {
+    if (data.kmYear <= 0) {
 
-        showError("Los kilómetros anuales deben ser mayores que 0.");
+        showError(
+            "Los kilómetros anuales deben ser mayores que 0."
+        );
 
         kmYearInput.focus();
 
@@ -158,9 +298,11 @@ function validateInputs() {
     }
 
 
-    if (consumption < 0) {
+    if (data.consumption < 0) {
 
-        showError("El consumo no puede ser negativo.");
+        showError(
+            "El consumo no puede ser negativo."
+        );
 
         consumptionInput.focus();
 
@@ -169,9 +311,11 @@ function validateInputs() {
     }
 
 
-    if (fuelPrice < 0) {
+    if (data.fuelPrice < 0) {
 
-        showError("El precio del combustible no puede ser negativo.");
+        showError(
+            "El precio del combustible no puede ser negativo."
+        );
 
         fuelPriceInput.focus();
 
@@ -180,9 +324,11 @@ function validateInputs() {
     }
 
 
-    if (fixedCosts < 0) {
+    if (data.fixedCosts < 0) {
 
-        showError("Los gastos fijos no pueden ser negativos.");
+        showError(
+            "Los gastos fijos no pueden ser negativos."
+        );
 
         fixedCostsInput.focus();
 
@@ -199,201 +345,102 @@ function validateInputs() {
 
 
 /* =====================================================
-   ERROR
+   MOSTRAR RESULTADOS
 ===================================================== */
 
-function showError(message) {
+function displayResults(result) {
 
-    errorMessage.textContent = message;
+    monthlyTotal.textContent =
+        formatEuro(result.monthlyRealCost);
 
-}
+    annualTotal.textContent =
+        formatEuro(result.annualRealCost);
+
+    costPerKm.textContent =
+        formatEuro(result.realCostPerKm);
+
+    costPer1000Km.textContent =
+        formatEuro(result.realCostPer1000Km);
+
+    periodTotal.textContent =
+        formatEuro(result.totalRealPeriod);
 
 
-function clearError() {
+    pocketAnnual.textContent =
+        formatEuro(result.annualPocketCost);
 
-    errorMessage.textContent = "";
+    pocketMonthly.textContent =
+        formatEuro(result.monthlyPocketCost) + "/mes";
+
+
+    depreciationTotal.textContent =
+        formatEuro(result.totalDepreciation);
+
+    depreciationAnnual.textContent =
+        formatEuro(result.annualDepreciation) + "/año";
+
+
+    fuelAnnual.textContent =
+        formatEuro(result.annualFuelCost);
+
+    fuelMonthly.textContent =
+        formatEuro(result.monthlyFuelCost) + "/mes";
+
+
+    fixedAnnual.textContent =
+        formatEuro(getNumber(fixedCostsInput));
+
+    fixedMonthly.textContent =
+        formatEuro(getNumber(fixedCostsInput) / 12) + "/mes";
+
+
+    /*
+        Dato clave
+    */
+
+    const fuelPercentage =
+        result.annualRealCost > 0
+            ? (result.annualFuelCost / result.annualRealCost) * 100
+            : 0;
+
+
+    const depreciationPercentage =
+        result.annualRealCost > 0
+            ? (result.annualDepreciation / result.annualRealCost) * 100
+            : 0;
+
+
+    if (depreciationPercentage >= fuelPercentage) {
+
+        insightText.textContent =
+            `La depreciación representa aproximadamente el ${depreciationPercentage.toFixed(0)}% de tu coste anual real. Comprar más barato o conservar mejor el valor del coche puede tener un impacto importante.`;
+
+    } else {
+
+        insightText.textContent =
+            `El combustible representa aproximadamente el ${fuelPercentage.toFixed(0)}% de tu coste anual real. Reducir kilómetros, consumo o precio por litro tendría un impacto directo.`;
+
+    }
 
 }
 
 
 /* =====================================================
-   CALCULAR
+   CALCULAR PRINCIPAL
 ===================================================== */
 
 function calculateCosts() {
 
-    if (!validateInputs()) {
+    if (!validateMainData()) {
         return;
     }
 
+    const data = getMainData();
 
-    /* ---------------------------------------------
-       DATOS
-    --------------------------------------------- */
+    const result =
+        calculateVehicle(data);
 
-    const purchasePrice = getNumber(purchasePriceInput);
-    const residualValue = getNumber(residualValueInput);
-    const years = getNumber(yearsInput);
-    const kmYear = getNumber(kmYearInput);
-    const consumption = getNumber(consumptionInput);
-    const fuelPrice = getNumber(fuelPriceInput);
-    const fixedCosts = getNumber(fixedCostsInput);
-
-
-    /* ---------------------------------------------
-       COMBUSTIBLE
-       
-       km/año ÷ 100 × L/100 km × €/L
-    --------------------------------------------- */
-
-    const litersYear =
-        (kmYear / 100) * consumption;
-
-    const annualFuelCost =
-        litersYear * fuelPrice;
-
-    const monthlyFuelCost =
-        annualFuelCost / 12;
-
-
-    /* ---------------------------------------------
-       COSTE DE BOLSILLO
-       
-       Combustible + gastos fijos
-    --------------------------------------------- */
-
-    const annualPocketCost =
-        annualFuelCost + fixedCosts;
-
-    const monthlyPocketCost =
-        annualPocketCost / 12;
-
-
-    /* ---------------------------------------------
-       DEPRECIACIÓN
-       
-       Precio compra - valor final
-    --------------------------------------------- */
-
-    const totalDepreciation =
-        purchasePrice - residualValue;
-
-    const annualDepreciation =
-        totalDepreciation / years;
-
-    const monthlyDepreciation =
-        annualDepreciation / 12;
-
-
-    /* ---------------------------------------------
-       COSTE REAL ANUAL
-    --------------------------------------------- */
-
-    const annualRealCost =
-        annualPocketCost + annualDepreciation;
-
-
-    /* ---------------------------------------------
-       COSTE REAL MENSUAL
-    --------------------------------------------- */
-
-    const monthlyRealCost =
-        annualRealCost / 12;
-
-
-    /* ---------------------------------------------
-       COSTE REAL POR KM
-    --------------------------------------------- */
-
-    const realCostPerKm =
-        annualRealCost / kmYear;
-
-
-    /* ---------------------------------------------
-       COSTE TOTAL DEL PERIODO
-       
-       Gastos de bolsillo durante todo el periodo
-       + depreciación
-    --------------------------------------------- */
-
-    const totalPocketPeriod =
-        annualPocketCost * years;
-
-    const totalRealPeriod =
-        totalPocketPeriod + totalDepreciation;
-
-
-    /* ---------------------------------------------
-       MOSTRAR RESULTADOS
-    --------------------------------------------- */
-
-    monthlyTotal.textContent =
-        formatEuro(monthlyRealCost);
-
-
-    annualTotal.textContent =
-        formatEuro(annualRealCost);
-
-
-    costPerKm.textContent =
-        formatEuro(realCostPerKm);
-
-
-    periodTotal.textContent =
-        formatEuro(totalRealPeriod);
-
-
-    /* ---------------------------------------------
-       COSTE DE BOLSILLO
-    --------------------------------------------- */
-
-    pocketAnnual.textContent =
-        formatEuro(annualPocketCost);
-
-
-    pocketMonthly.textContent =
-        formatEuro(monthlyPocketCost) + "/mes";
-
-
-    /* ---------------------------------------------
-       DEPRECIACIÓN
-    --------------------------------------------- */
-
-    depreciationTotal.textContent =
-        formatEuro(totalDepreciation);
-
-
-    depreciationAnnual.textContent =
-        formatEuro(annualDepreciation) + "/año";
-
-
-    /* ---------------------------------------------
-       COMBUSTIBLE
-    --------------------------------------------- */
-
-    fuelAnnual.textContent =
-        formatEuro(annualFuelCost);
-
-
-    fuelMonthly.textContent =
-        formatEuro(monthlyFuelCost) + "/mes";
-
-
-    /* ---------------------------------------------
-       GASTOS FIJOS
-    --------------------------------------------- */
-
-    fixedAnnual.textContent =
-        formatEuro(fixedCosts);
-
-
-    fixedMonthly.textContent =
-        formatEuro(fixedCosts / 12) + "/mes";
-
-
-    /* ---------------------------------------------
-       GUARDAR DATOS
-    --------------------------------------------- */
+    displayResults(result);
 
     saveData();
 
@@ -401,7 +448,223 @@ function calculateCosts() {
 
 
 /* =====================================================
-   REINICIAR
+   COMPARADOR
+===================================================== */
+
+function getComparisonData() {
+
+    return {
+
+        purchasePrice: getNumber(compareBPurchase),
+        residualValue: getNumber(compareBResidual),
+        years: getNumber(compareBYears),
+        kmYear: getNumber(compareBKm),
+        consumption: getNumber(compareBConsumption),
+        fuelPrice: getNumber(compareBFuelPrice),
+        fixedCosts: getNumber(compareBFixed)
+
+    };
+
+}
+
+
+function compareCars() {
+
+    if (!validateMainData()) {
+        return;
+    }
+
+
+    const dataA =
+        getMainData();
+
+    const dataB =
+        getComparisonData();
+
+
+    const valuesB =
+        Object.values(dataB);
+
+
+    if (valuesB.some(value => !Number.isFinite(value))) {
+
+        comparisonWinner.textContent =
+            "Completa todos los datos del coche B antes de comparar.";
+
+        return;
+
+    }
+
+
+    if (dataB.purchasePrice <= 0) {
+
+        comparisonWinner.textContent =
+            "El precio de compra del coche B debe ser mayor que 0 €.";
+
+        compareBPurchase.focus();
+
+        return;
+
+    }
+
+
+    if (dataB.residualValue < 0) {
+
+        comparisonWinner.textContent =
+            "El valor final del coche B no puede ser negativo.";
+
+        return;
+
+    }
+
+
+    if (dataB.residualValue > dataB.purchasePrice) {
+
+        comparisonWinner.textContent =
+            "El valor final del coche B no debería ser superior a su precio de compra.";
+
+        return;
+
+    }
+
+
+    if (dataB.years <= 0 || dataB.kmYear <= 0) {
+
+        comparisonWinner.textContent =
+            "Los años y kilómetros del coche B deben ser mayores que 0.";
+
+        return;
+
+    }
+
+
+    const resultA =
+        calculateVehicle(dataA);
+
+    const resultB =
+        calculateVehicle(dataB);
+
+
+    /*
+        Mostrar coche A
+    */
+
+    compareAMonthly.textContent =
+        formatEuro(resultA.monthlyRealCost);
+
+    compareAAnnual.textContent =
+        formatEuro(resultA.annualRealCost);
+
+    compareAKm.textContent =
+        formatEuro(resultA.realCostPerKm);
+
+
+    /*
+        Mostrar coche B
+    */
+
+    compareBMonthly.textContent =
+        formatEuro(resultB.monthlyRealCost);
+
+    compareBAnnual.textContent =
+        formatEuro(resultB.annualRealCost);
+
+    compareBKm.textContent =
+        formatEuro(resultB.realCostPerKm);
+
+
+    /*
+        Nombres
+    */
+
+    const nameA =
+        carAName.value.trim() || "Coche A";
+
+    const nameB =
+        carBName.value.trim() || "Coche B";
+
+
+    /*
+        Diferencia
+    */
+
+    const annualDifference =
+        Math.abs(
+            resultA.annualRealCost -
+            resultB.annualRealCost
+        );
+
+
+    const monthlyDifference =
+        annualDifference / 12;
+
+
+    /*
+        Ganador
+    */
+
+    if (resultA.annualRealCost < resultB.annualRealCost) {
+
+        comparisonWinner.innerHTML =
+            `<strong>${escapeHTML(nameA)}</strong> es más barato de mantener. 
+            Ahorrarías aproximadamente <strong>${formatEuro(monthlyDifference)}/mes</strong> 
+            o <strong>${formatEuro(annualDifference)}/año</strong> frente a ${escapeHTML(nameB)}.`;
+
+    } else if (resultB.annualRealCost < resultA.annualRealCost) {
+
+        comparisonWinner.innerHTML =
+            `<strong>${escapeHTML(nameB)}</strong> es más barato de mantener. 
+            Ahorrarías aproximadamente <strong>${formatEuro(monthlyDifference)}/mes</strong> 
+            o <strong>${formatEuro(annualDifference)}/año</strong> frente a ${escapeHTML(nameA)}.`;
+
+    } else {
+
+        comparisonWinner.textContent =
+            "Los dos coches tienen exactamente el mismo coste anual estimado.";
+
+    }
+
+}
+
+
+/* =====================================================
+   EVITAR HTML INSEGURO EN NOMBRES
+===================================================== */
+
+function escapeHTML(text) {
+
+    return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+/* =====================================================
+   ERROR
+===================================================== */
+
+function showError(message) {
+
+    errorMessage.textContent =
+        message;
+
+}
+
+
+function clearError() {
+
+    errorMessage.textContent =
+        "";
+
+}
+
+
+/* =====================================================
+   RESET
 ===================================================== */
 
 function resetCalculator() {
@@ -418,6 +681,7 @@ function resetCalculator() {
     monthlyTotal.textContent = "0,00 €";
     annualTotal.textContent = "0,00 €";
     costPerKm.textContent = "0,00 €";
+    costPer1000Km.textContent = "0,00 €";
     periodTotal.textContent = "0,00 €";
 
     pocketAnnual.textContent = "0,00 €";
@@ -432,15 +696,46 @@ function resetCalculator() {
     fixedAnnual.textContent = "0,00 €";
     fixedMonthly.textContent = "0,00 €/mes";
 
+    insightText.textContent =
+        "Introduce tus datos para descubrir dónde se concentra el coste de tu coche.";
+
+
+    carAName.value = "";
+    carBName.value = "";
+
+    compareBPurchase.value = "";
+    compareBResidual.value = "";
+    compareBYears.value = "";
+    compareBKm.value = "";
+    compareBConsumption.value = "";
+    compareBFuelPrice.value = "";
+    compareBFixed.value = "";
+
+
+    compareAMonthly.textContent = "0,00 €";
+    compareAAnnual.textContent = "0,00 €";
+    compareAKm.textContent = "0,00 €";
+
+    compareBMonthly.textContent = "0,00 €";
+    compareBAnnual.textContent = "0,00 €";
+    compareBKm.textContent = "0,00 €";
+
+
+    comparisonWinner.textContent =
+        "Introduce los datos del coche B y pulsa comparar.";
+
+
     clearError();
 
-    localStorage.removeItem("carCostCalculator");
+    localStorage.removeItem(
+        "carCostCalculator"
+    );
 
 }
 
 
 /* =====================================================
-   GUARDAR DATOS
+   GUARDAR
 ===================================================== */
 
 function saveData() {
@@ -467,7 +762,7 @@ function saveData() {
 
 
 /* =====================================================
-   CARGAR DATOS
+   CARGAR
 ===================================================== */
 
 function loadData() {
@@ -536,15 +831,25 @@ resetBtn.addEventListener(
 );
 
 
+compareBtn.addEventListener(
+    "click",
+    compareCars
+);
+
+
 /* =====================================================
-   ENTER PARA CALCULAR
+   ENTER
 ===================================================== */
 
 document.addEventListener(
     "keydown",
     function(event) {
 
-        if (event.key === "Enter") {
+        if (
+            event.key === "Enter" &&
+            document.activeElement !== carAName &&
+            document.activeElement !== carBName
+        ) {
 
             event.preventDefault();
 
@@ -557,7 +862,7 @@ document.addEventListener(
 
 
 /* =====================================================
-   CARGAR DATOS AL ABRIR
+   CARGAR AL ABRIR
 ===================================================== */
 
 loadData();
