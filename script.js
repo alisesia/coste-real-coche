@@ -18,12 +18,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const otrosGastos = parseFloat(document.getElementById('otrosGastos').value) || 0;
 
     if (precioCompra <= 0 || kmAno <= 0 || periodoAnos <= 0) {
-      alert('Por favor, ingresa valores válidos superiores a 0 en precio, kilómetros y años.');
+      alert('Ingresa valores válidos en el precio, kilómetros y años.');
       return;
     }
 
     if (valorFinal > precioCompra) {
-      alert('El valor estimado final no puede ser mayor que el precio de compra.');
+      alert('El valor estimado final no puede superar el precio de compra.');
       return;
     }
 
@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const costeRealMensual = costeRealAnual / 12;
     const costeRealKm = costeRealAnual / kmAno;
 
-    // Inyección de texto
+    // Renderizar resultados
     document.getElementById('pocketAnual').textContent = bolsilloAnual.toFixed(2);
     document.getElementById('pocketMensual').textContent = bolsilloMensual.toFixed(2);
 
