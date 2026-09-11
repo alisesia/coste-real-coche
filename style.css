@@ -2,6 +2,9 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+body {
   font-family:
     -apple-system,
     BlinkMacSystemFont,
@@ -10,24 +13,27 @@
     Helvetica,
     Arial,
     sans-serif;
-}
 
-body {
-  background: #f4f7fb;
-  color: #1f2937;
-  padding: 20px 15px;
+  background: #f5f7fa;
+  color: #17202a;
+
+  padding: 24px 14px 40px;
+
   min-height: 100vh;
 }
 
+
+/* =========================
+   CONTENEDOR
+========================= */
+
 .container {
-  max-width: 620px;
   width: 100%;
+  max-width: 680px;
+
   margin: 0 auto;
-  background: #ffffff;
-  padding: 30px 24px;
-  border-radius: 16px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
 }
+
 
 /* =========================
    CABECERA
@@ -35,83 +41,557 @@ body {
 
 .header {
   text-align: center;
-  margin-bottom: 28px;
+
+  margin-bottom: 25px;
+}
+
+.badge {
+  display: inline-block;
+
+  padding: 6px 10px;
+
+  margin-bottom: 12px;
+
+  border-radius: 20px;
+
+  background: #e8f2ff;
+  color: #0066cc;
+
+  font-size: 0.7rem;
+  font-weight: 800;
+
+  letter-spacing: 0.5px;
 }
 
 h1 {
-  font-size: 1.7rem;
-  line-height: 1.25;
-  color: #17212b;
+  font-size: 1.9rem;
+  line-height: 1.2;
+
   margin-bottom: 10px;
 }
 
 .subtitle {
-  color: #64748b;
-  font-size: 0.95rem;
+  max-width: 520px;
+
+  margin: 0 auto;
+
+  color: #667085;
+
+  font-size: 0.94rem;
   line-height: 1.5;
 }
+
 
 /* =========================
    FORMULARIO
 ========================= */
 
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.form-card {
+  background: #ffffff;
+
+  border: 1px solid #e4e7ec;
+
+  border-radius: 14px;
+
+  padding: 20px;
+}
+
+.form-card h2 {
+  font-size: 1rem;
+
+  margin-bottom: 17px;
+
+  color: #344054;
+}
+
+.form-grid {
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 15px;
+}
+
 .form-group {
-  margin-bottom: 19px;
+  min-width: 0;
+}
+
+.full-width {
+  grid-column: 1 / -1;
 }
 
 label {
   display: block;
-  font-size: 0.92rem;
-  font-weight: 600;
-  color: #334155;
-  margin-bottom: 7px;
-}
 
-.input-help {
-  display: block;
-  margin-top: 6px;
-  color: #94a3b8;
-  font-size: 0.78rem;
-  line-height: 1.4;
+  margin-bottom: 6px;
+
+  color: #344054;
+
+  font-size: 0.83rem;
+  font-weight: 650;
 }
 
 input {
   width: 100%;
-  padding: 13px 14px;
-  border: 1px solid #cbd5e1;
+
+  padding: 12px 13px;
+
+  border: 1px solid #d0d5dd;
+
   border-radius: 9px;
+
   background: #ffffff;
-  color: #1e293b;
-  font-size: 1rem;
+
+  color: #101828;
+
+  font-size: 0.95rem;
+
   outline: none;
+
   transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
 input:focus {
   border-color: #0066cc;
-  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.12);
+
+  box-shadow:
+    0 0 0 3px rgba(0, 102, 204, 0.10);
 }
 
 input::placeholder {
-  color: #a8b2bd;
+  color: #98a2b3;
 }
 
+
 /* =========================
-   BOTÓN PRINCIPAL
+   BOTÓN CALCULAR
 ========================= */
 
 .primary-button {
   width: 100%;
-  margin-top: 5px;
-  padding: 15px;
+
   border: none;
+
   border-radius: 10px;
+
+  padding: 14px 18px;
+
+  margin-top: 2px;
+
   background: #0066cc;
+
   color: #ffffff;
-  font-size: 1rem;
-  font-weight: 700;
+
+  font-size: 0.98rem;
+  font-weight: 750;
+
   cursor: pointer;
+
   transition:
-   
+    background 0.15s ease,
+    transform 0.1s ease;
+}
+
+.primary-button:hover {
+  background: #0052a3;
+}
+
+.primary-button:active {
+  transform: scale(0.99);
+}
+
+
+/* =========================
+   RESULTADOS
+========================= */
+
+.results-container {
+  margin-top: 32px;
+}
+
+.results-container.hidden {
+  display: none;
+}
+
+.results-header {
+  text-align: center;
+
+  margin-bottom: 15px;
+}
+
+.results-label {
+  color: #0066cc;
+
+  font-size: 0.68rem;
+  font-weight: 800;
+
+  letter-spacing: 1px;
+}
+
+.results-header h2 {
+  margin-top: 4px;
+
+  font-size: 1.25rem;
+}
+
+
+/* =========================
+   RESULTADO PRINCIPAL
+========================= */
+
+.main-result {
+  background:
+    linear-gradient(
+      145deg,
+      #0066cc,
+      #004a99
+    );
+
+  color: #ffffff;
+
+  border-radius: 17px;
+
+  padding: 25px 20px;
+
+  text-align: center;
+
+  box-shadow:
+    0 10px 25px rgba(0, 78, 153, 0.18);
+
+  margin-bottom: 14px;
+}
+
+.main-result-label {
+  display: block;
+
+  opacity: 0.85;
+
+  font-size: 0.83rem;
+
+  margin-bottom: 5px;
+}
+
+.main-result-value {
+  font-size: 2.35rem;
+
+  font-weight: 850;
+
+  line-height: 1.1;
+
+  letter-spacing: -1px;
+}
+
+.main-result-value small {
+  font-size: 0.95rem;
+
+  font-weight: 600;
+
+  letter-spacing: 0;
+
+  opacity: 0.9;
+}
+
+.main-result-details {
+  display: flex;
+
+  justify-content: center;
+
+  gap: 45px;
+
+  margin-top: 20px;
+
+  padding-top: 15px;
+
+  border-top:
+    1px solid rgba(255,255,255,0.2);
+}
+
+.main-result-details div {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 3px;
+}
+
+.main-result-details strong {
+  font-size: 1rem;
+}
+
+.main-result-details span {
+  font-size: 0.72rem;
+
+  opacity: 0.75;
+}
+
+
+/* =========================
+   TARJETAS
+========================= */
+
+.results-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 11px;
+
+  margin-bottom: 14px;
+}
+
+.result-card {
+  background: #ffffff;
+
+  border:
+    1px solid #e4e7ec;
+
+  border-radius: 13px;
+
+  padding: 15px;
+
+  min-width: 0;
+}
+
+.card-icon {
+  width: 28px;
+  height: 28px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 8px;
+
+  background: #f2f4f7;
+
+  color: #475467;
+
+  font-size: 0.85rem;
+  font-weight: 800;
+
+  margin-bottom: 11px;
+}
+
+.card-title {
+  color: #667085;
+
+  font-size: 0.72rem;
+  font-weight: 650;
+
+  line-height: 1.3;
+
+  margin-bottom: 5px;
+}
+
+.card-value {
+  color: #101828;
+
+  font-size: 1.05rem;
+  font-weight: 800;
+
+  white-space: nowrap;
+}
+
+.card-secondary {
+  color: #667085;
+
+  font-size: 0.72rem;
+
+  margin-top: 3px;
+
+  white-space: nowrap;
+}
+
+.card-description {
+  color: #98a2b3;
+
+  font-size: 0.68rem;
+
+  line-height: 1.3;
+
+  margin-top: 9px;
+}
+
+.featured-card {
+  border-color: #b9d9ff;
+
+  background: #f7fbff;
+}
+
+.featured-card .card-icon {
+  background: #e8f2ff;
+
+  color: #0066cc;
+}
+
+.featured-card .card-value {
+  color: #0052a3;
+}
+
+
+/* =========================
+   INFORMACIÓN
+========================= */
+
+.info-box {
+  background: #ffffff;
+
+  border: 1px solid #e4e7ec;
+
+  border-radius: 11px;
+
+  padding: 13px 15px;
+
+  margin-bottom: 14px;
+}
+
+.info-box strong {
+  display: block;
+
+  color: #344054;
+
+  font-size: 0.78rem;
+
+  margin-bottom: 4px;
+}
+
+.info-box p {
+  color: #667085;
+
+  font-size: 0.73rem;
+
+  line-height: 1.4;
+}
+
+
+/* =========================
+   BOTONES RESULTADO
+========================= */
+
+.result-actions {
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 10px;
+}
+
+.secondary-button {
+  width: 100%;
+
+  padding: 12px;
+
+  border-radius: 9px;
+
+  border:
+    1px solid #d0d5dd;
+
+  background: #ffffff;
+
+  color: #344054;
+
+  font-size: 0.82rem;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.secondary-button:hover {
+  background: #f9fafb;
+}
+
+.share-message {
+  text-align: center;
+
+  margin-top: 9px;
+
+  color: #027a48;
+
+  font-size: 0.75rem;
+}
+
+.share-message.hidden {
+  display: none;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer {
+  text-align: center;
+
+  margin-top: 25px;
+
+  color: #98a2b3;
+
+  font-size: 0.68rem;
+}
+
+
+/* =========================
+   MÓVIL
+========================= */
+
+@media (max-width: 560px) {
+
+  body {
+    padding: 15px 10px 30px;
+  }
+
+  h1 {
+    font-size: 1.55rem;
+  }
+
+  .subtitle {
+    font-size: 0.86rem;
+  }
+
+  .form-card {
+    padding: 17px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 13px;
+  }
+
+  .full-width {
+    grid-column: auto;
+  }
+
+  .results-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .featured-card {
+    grid-column: 1 / -1;
+  }
+
+  .main-result {
+    padding: 23px 15px;
+  }
+
+  .main-result-value {
+    font-size: 2rem;
+  }
+
+  .main-result-details {
+    gap: 35px;
+  }
+
+  .result-actions {
+    grid-template-columns: 1fr;
+  }
+}
