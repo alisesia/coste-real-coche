@@ -1,105 +1,272 @@
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
 }
+
 
 body {
-    background-color: #f4f6f9;
-    color: #333;
-    padding: 15px;
-    display: flex;
-    justify-content: center;
+  background-color: #f4f7f6;
+
+  color: #333;
+
+  padding: 20px 15px;
+
+  display: flex;
+  justify-content: center;
 }
+
 
 .container {
-    background: #ffffff;
-    max-width: 500px;
-    width: 100%;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  background-color: #ffffff;
+
+  max-width: 600px;
+
+  width: 100%;
+
+  padding: 25px 20px;
+
+  border-radius: 12px;
+
+  box-shadow:
+    0 4px 15px rgba(0, 0, 0, 0.08);
 }
+
 
 h1 {
-    font-size: 1.4rem;
-    margin-bottom: 8px;
-    color: #1a1a1a;
+  font-size: 1.5rem;
+
+  color: #1a252c;
+
+  margin-bottom: 8px;
+
+  text-align: center;
 }
+
 
 .subtitle {
-    font-size: 0.9rem;
-    color: #666;
-    margin-bottom: 20px;
+  font-size: 0.95rem;
+
+  color: #666;
+
+  text-align: center;
+
+  margin-bottom: 25px;
+
+  line-height: 1.5;
 }
+
 
 .form-group {
-    margin-bottom: 15px;
+  margin-bottom: 18px;
 }
+
 
 label {
-    display: block;
-    font-size: 0.85rem;
-    font-weight: 600;
-    margin-bottom: 5px;
+  display: block;
+
+  font-size: 0.9rem;
+
+  font-weight: 600;
+
+  margin-bottom: 6px;
+
+  color: #2c3e50;
 }
+
 
 input {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 1rem;
-    outline: none;
+  width: 100%;
+
+  padding: 12px;
+
+  border: 1px solid #ccc;
+
+  border-radius: 8px;
+
+  font-size: 1rem;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
+
 
 input:focus {
-    border-color: #0066cc;
+  outline: none;
+
+  border-color: #0066cc;
+
+  box-shadow:
+    0 0 0 3px rgba(0, 102, 204, 0.1);
 }
+
 
 button {
-    width: 100%;
-    background-color: #0066cc;
-    color: white;
-    border: none;
-    padding: 14px;
-    font-size: 1rem;
-    font-weight: bold;
-    border-radius: 8px;
-    cursor: pointer;
-    margin-top: 10px;
+  width: 100%;
+
+  background-color: #0066cc;
+
+  color: white;
+
+  border: none;
+
+  padding: 14px;
+
+  font-size: 1rem;
+
+  font-weight: bold;
+
+  border-radius: 8px;
+
+  cursor: pointer;
+
+  margin-top: 10px;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.1s ease;
 }
+
+
+button:hover {
+  background-color: #0052a3;
+}
+
 
 button:active {
-    background-color: #004b99;
+  transform: scale(0.98);
 }
 
-.results-card {
-    margin-top: 25px;
-    padding: 15px;
-    background-color: #eef5ff;
-    border-radius: 8px;
-    border-left: 4px solid #0066cc;
+
+.results-container {
+  margin-top: 30px;
+
+  padding-top: 20px;
+
+  border-top: 2px dashed #e0e0e0;
 }
 
-.hidden {
-    display: none;
+
+.results-container.hidden {
+  display: none;
 }
 
-.results-card h2 {
-    font-size: 1.1rem;
-    margin-bottom: 12px;
+
+.results-container h2 {
+  font-size: 1.3rem;
+
+  text-align: center;
+
+  margin-bottom: 20px;
+
+  color: #1a252c;
 }
 
-.result-item {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 8px;
+
+.results-section {
+  background-color: #f8fafc;
+
+  border: 1px solid #e2e8f0;
+
+  padding: 15px;
+
+  border-radius: 8px;
+
+  margin-bottom: 15px;
+}
+
+
+.results-section h3 {
+  font-size: 1rem;
+
+  color: #475569;
+
+  margin-bottom: 10px;
+
+  border-bottom: 1px solid #cbd5e1;
+
+  padding-bottom: 5px;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.5px;
+}
+
+
+.results-section p {
+  font-size: 0.95rem;
+
+  margin-bottom: 6px;
+
+  display: flex;
+
+  justify-content: space-between;
+
+  gap: 15px;
+}
+
+
+.results-section p:last-child {
+  margin-bottom: 0;
+}
+
+
+.results-section.highlight {
+  background-color: #eef6ff;
+
+  border-color: #b3d7ff;
+}
+
+
+.results-section.highlight h3 {
+  color: #0052a3;
+
+  border-bottom-color: #b3d7ff;
+}
+
+
+.main-stat {
+  font-size: 1.05rem;
+
+  font-weight: 600;
+}
+
+
+@media (max-width: 480px) {
+
+  .container {
+    padding: 18px 15px;
+  }
+
+
+  h1 {
+    font-size: 1.3rem;
+  }
+
+
+  .subtitle {
+    font-size: 0.9rem;
+  }
+
+
+  input,
+  button {
     font-size: 0.95rem;
-}
+  }
 
-.highlight {
-    color: #0066cc;
-    font-size: 1.1rem;
+
+  .results-section p {
+    font-size: 0.9rem;
+  }
+
 }
