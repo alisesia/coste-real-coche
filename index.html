@@ -8,7 +8,7 @@
 
     <meta
         name="description"
-        content="Calcula cuánto te cuesta realmente tu coche incluyendo combustible, gastos fijos y depreciación."
+        content="Calcula el coste real de tu coche incluyendo combustible, gastos fijos y depreciación. Compara dos vehículos y descubre cuál te cuesta menos."
     >
 
     <link rel="stylesheet" href="style.css">
@@ -18,20 +18,23 @@
 
 <div class="app">
 
-    <!-- CABECERA -->
+    <!-- HERO -->
     <header class="hero">
         <div class="hero-badge">CALCULADORA FINANCIERA</div>
 
         <h1>¿Cuánto te cuesta realmente tu coche?</h1>
 
         <p>
-            Calcula el coste real de tener tu coche teniendo en cuenta
-            combustible, gastos fijos y depreciación.
+            Descubre el coste real de tener un coche teniendo en cuenta
+            combustible, gastos fijos y pérdida de valor.
         </p>
     </header>
 
 
-    <!-- CONTENIDO PRINCIPAL -->
+    <!-- =========================
+         CALCULADORA
+    ========================== -->
+
     <main class="main-grid">
 
         <!-- FORMULARIO -->
@@ -87,7 +90,7 @@
             </div>
 
 
-            <!-- PERIODO -->
+            <!-- PERIODO + KM -->
             <div class="form-row">
 
                 <div class="form-group">
@@ -189,202 +192,4 @@
                         id="fixedCosts"
                         placeholder="1.000"
                         min="0"
-                        step="0.01"
-                    >
-                    <span>€/año</span>
-                </div>
-            </div>
-
-
-            <!-- BOTÓN -->
-            <button
-                type="button"
-                id="calculateBtn"
-                class="calculate-btn"
-            >
-                <span>Calcular coste real</span>
-                <span class="arrow">→</span>
-            </button>
-
-            <p id="errorMessage" class="error-message"></p>
-
-        </section>
-
-
-        <!-- RESULTADOS -->
-        <section class="results-card">
-
-            <div class="results-header">
-                <div>
-                    <span class="section-number light">02</span>
-                    <h2>Resumen de costes</h2>
-                </div>
-
-                <span class="result-status">
-                    Resultado
-                </span>
-            </div>
-
-
-            <!-- COSTE REAL DESTACADO -->
-            <div class="main-result">
-
-                <span class="main-label">
-                    Coste real mensual
-                </span>
-
-                <div class="main-value">
-                    <span id="monthlyTotal">0,00 €</span>
-                </div>
-
-                <p>
-                    Lo que realmente te cuesta el coche cada mes,
-                    incluyendo depreciación.
-                </p>
-
-            </div>
-
-
-            <!-- MINI RESULTADOS -->
-            <div class="highlight-grid">
-
-                <div class="highlight-card">
-                    <span>Coste anual</span>
-                    <strong id="annualTotal">0,00 €</strong>
-                </div>
-
-                <div class="highlight-card">
-                    <span>Coste por km</span>
-                    <strong id="costPerKm">0,00 €</strong>
-                </div>
-
-                <div class="highlight-card wide">
-                    <span>Coste total durante el periodo</span>
-                    <strong id="periodTotal">0,00 €</strong>
-                </div>
-
-            </div>
-
-
-            <!-- DESGLOSE -->
-            <div class="breakdown">
-
-                <div class="breakdown-title">
-                    <span>Desglose</span>
-                </div>
-
-
-                <!-- BOLSILLO -->
-                <div class="breakdown-row">
-
-                    <div class="breakdown-info">
-                        <div class="icon-box fuel-icon">€</div>
-
-                        <div>
-                            <strong>Coste de bolsillo</strong>
-                            <small>Gastos que pagas durante el año</small>
-                        </div>
-                    </div>
-
-                    <div class="breakdown-values">
-                        <strong id="pocketAnnual">0,00 €</strong>
-                        <span id="pocketMonthly">0,00 €/mes</span>
-                    </div>
-
-                </div>
-
-
-                <!-- DEPRECIACIÓN -->
-                <div class="breakdown-row">
-
-                    <div class="breakdown-info">
-                        <div class="icon-box depreciation-icon">↓</div>
-
-                        <div>
-                            <strong>Depreciación</strong>
-                            <small>Pérdida de valor del vehículo</small>
-                        </div>
-                    </div>
-
-                    <div class="breakdown-values">
-                        <strong id="depreciationTotal">0,00 €</strong>
-                        <span id="depreciationAnnual">0,00 €/año</span>
-                    </div>
-
-                </div>
-
-
-                <!-- COMBUSTIBLE -->
-                <div class="breakdown-row">
-
-                    <div class="breakdown-info">
-                        <div class="icon-box">⛽</div>
-
-                        <div>
-                            <strong>Combustible</strong>
-                            <small>Estimación según tus kilómetros</small>
-                        </div>
-                    </div>
-
-                    <div class="breakdown-values">
-                        <strong id="fuelAnnual">0,00 €</strong>
-                        <span id="fuelMonthly">0,00 €/mes</span>
-                    </div>
-
-                </div>
-
-
-                <!-- FIJOS -->
-                <div class="breakdown-row">
-
-                    <div class="breakdown-info">
-                        <div class="icon-box">+</div>
-
-                        <div>
-                            <strong>Gastos fijos</strong>
-                            <small>Seguro, mantenimiento y otros</small>
-                        </div>
-                    </div>
-
-                    <div class="breakdown-values">
-                        <strong id="fixedAnnual">0,00 €</strong>
-                        <span id="fixedMonthly">0,00 €/mes</span>
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- BOTÓN RESET -->
-            <button
-                type="button"
-                id="resetBtn"
-                class="reset-btn"
-            >
-                Calcular de nuevo
-            </button>
-
-        </section>
-
-    </main>
-
-
-    <!-- INFORMACIÓN -->
-    <footer class="footer">
-
-        <p>
-            El resultado es una estimación basada en los datos introducidos.
-            No incluye financiación, reparaciones extraordinarias ni otros
-            gastos no indicados.
-        </p>
-
-    </footer>
-
-</div>
-
-
-<script src="script.js"></script>
-
-</body>
-</html>
+                       
