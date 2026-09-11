@@ -1,195 +1,179 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
 
-    <title>Calculadora de Coste Real del Coche</title>
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
-    <meta
-        name="description"
-        content="Calcula el coste real de tu coche incluyendo combustible, gastos fijos y depreciación. Compara dos vehículos y descubre cuál te cuesta menos."
-    >
+  <title>Coste Real de tu Coche</title>
 
-    <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<div class="app">
+  <main class="container">
 
-    <!-- HERO -->
-    <header class="hero">
-        <div class="hero-badge">CALCULADORA FINANCIERA</div>
+    <header class="header">
 
-        <h1>¿Cuánto te cuesta realmente tu coche?</h1>
+      <div class="badge">
+        CALCULADORA GRATUITA
+      </div>
 
-        <p>
-            Descubre el coste real de tener un coche teniendo en cuenta
-            combustible, gastos fijos y pérdida de valor.
-        </p>
+      <h1>
+        ¿Cuánto te cuesta realmente tu coche?
+      </h1>
+
+      <p class="subtitle">
+        Calcula cuánto gastas realmente en tu coche
+        teniendo en cuenta gastos y pérdida de valor.
+      </p>
+
     </header>
 
 
-    <!-- =========================
-         CALCULADORA
-    ========================== -->
+    <!-- DATOS DEL COCHE -->
 
-    <main class="main-grid">
+    <form id="calc-form">
 
-        <!-- FORMULARIO -->
-        <section class="card input-card">
+      <div class="form-card">
 
-            <div class="card-header">
-                <div>
-                    <span class="section-number">01</span>
-                    <h2>Datos del vehículo</h2>
-                </div>
+        <h2>Precio y uso del coche</h2>
 
-                <span class="required">Todos los campos</span>
-            </div>
+        <div class="form-grid">
 
+          <div class="form-group">
 
-            <!-- PRECIO -->
-            <div class="form-group">
-                <label for="purchasePrice">
-                    Precio de compra
-                    <span>€</span>
-                </label>
+            <label for="precioCompra">
+              Precio de compra (€)
+            </label>
 
-                <div class="input-wrapper">
-                    <input
-                        type="number"
-                        id="purchasePrice"
-                        placeholder="25.000"
-                        min="0"
-                        step="0.01"
-                    >
-                    <span>€</span>
-                </div>
-            </div>
+            <input
+              type="number"
+              id="precioCompra"
+              placeholder="18000"
+              min="0"
+              step="any"
+              required
+            >
+
+          </div>
 
 
-            <!-- VALOR FINAL -->
-            <div class="form-group">
-                <label for="residualValue">
-                    Valor estimado al final
-                    <span>€</span>
-                </label>
+          <div class="form-group">
 
-                <div class="input-wrapper">
-                    <input
-                        type="number"
-                        id="residualValue"
-                        placeholder="15.000"
-                        min="0"
-                        step="0.01"
-                    >
-                    <span>€</span>
-                </div>
-            </div>
+            <label for="valorFinal">
+              Valor estimado final (€)
+            </label>
+
+            <input
+              type="number"
+              id="valorFinal"
+              placeholder="8000"
+              min="0"
+              step="any"
+              required
+            >
+
+          </div>
 
 
-            <!-- PERIODO + KM -->
-            <div class="form-row">
+          <div class="form-group">
 
-                <div class="form-group">
-                    <label for="years">
-                        Periodo de propiedad
-                    </label>
+            <label for="periodoAnos">
+              Años de propiedad
+            </label>
 
-                    <div class="input-wrapper">
-                        <input
-                            type="number"
-                            id="years"
-                            placeholder="5"
-                            min="1"
-                            step="1"
-                        >
-                        <span>años</span>
-                    </div>
-                </div>
+            <input
+              type="number"
+              id="periodoAnos"
+              placeholder="5"
+              min="1"
+              step="any"
+              required
+            >
+
+          </div>
 
 
-                <div class="form-group">
-                    <label for="kmYear">
-                        Kilómetros al año
-                    </label>
+          <div class="form-group">
 
-                    <div class="input-wrapper">
-                        <input
-                            type="number"
-                            id="kmYear"
-                            placeholder="15.000"
-                            min="1"
-                            step="1"
-                        >
-                        <span>km</span>
-                    </div>
-                </div>
+            <label for="kmAno">
+              Kilómetros al año
+            </label>
 
-            </div>
+            <input
+              type="number"
+              id="kmAno"
+              placeholder="15000"
+              min="1"
+              step="any"
+              required
+            >
 
+          </div>
 
-            <!-- COMBUSTIBLE -->
-            <div class="form-section-title">
-                <span>Combustible</span>
-            </div>
+        </div>
 
-            <div class="form-row">
-
-                <div class="form-group">
-                    <label for="consumption">
-                        Consumo
-                    </label>
-
-                    <div class="input-wrapper">
-                        <input
-                            type="number"
-                            id="consumption"
-                            placeholder="6,5"
-                            min="0"
-                            step="0.1"
-                        >
-                        <span>L/100 km</span>
-                    </div>
-                </div>
+      </div>
 
 
-                <div class="form-group">
-                    <label for="fuelPrice">
-                        Precio combustible
-                    </label>
+      <!-- GASTOS -->
 
-                    <div class="input-wrapper">
-                        <input
-                            type="number"
-                            id="fuelPrice"
-                            placeholder="1,60"
-                            min="0"
-                            step="0.01"
-                        >
-                        <span>€/L</span>
-                    </div>
-                </div>
+      <div class="form-card">
 
-            </div>
+        <h2>Gastos del coche</h2>
+
+        <div class="form-grid">
+
+          <div class="form-group">
+
+            <label for="consumo">
+              Consumo (L/100 km)
+            </label>
+
+            <input
+              type="number"
+              id="consumo"
+              placeholder="6"
+              min="0"
+              step="any"
+              required
+            >
+
+          </div>
 
 
-            <!-- GASTOS FIJOS -->
-            <div class="form-section-title">
-                <span>Gastos fijos anuales</span>
-            </div>
+          <div class="form-group">
 
-            <div class="form-group">
-                <label for="fixedCosts">
-                    Seguro, mantenimiento, ITV, impuestos, parking...
-                </label>
+            <label for="precioCombustible">
+              Precio combustible (€/L)
+            </label>
 
-                <div class="input-wrapper">
-                    <input
-                        type="number"
-                        id="fixedCosts"
-                        placeholder="1.000"
-                        min="0"
-                       
+            <input
+              type="number"
+              id="precioCombustible"
+              placeholder="1.50"
+              min="0"
+              step="any"
+              required
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label for="seguro">
+              Seguro anual (€)
+            </label>
+
+            <input
+              type="number"
+              id="seguro"
+              placeholder="650"
+              min="
